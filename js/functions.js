@@ -1,3 +1,7 @@
+function isStrLengthValid (str, limit) {
+  return str.length <= limit;
+}
+
 function isPaliondrome (str) {
   const processedStr = str.replace(/ /g, '').toLowerCase();
   let reversedStr = '';
@@ -7,8 +11,11 @@ function isPaliondrome (str) {
   return processedStr === reversedStr;
 }
 
-function isStrLengthValid (str, limit) {
-  return str.length <= limit;
+function extractNumber (str) {
+  if (typeof(str) === 'number') {
+    str += '';
+  }
+  return parseInt(str.replace(/\D/g, ''), 10);
 }
 
 function addFillToStr (str, minLength, filler) {
