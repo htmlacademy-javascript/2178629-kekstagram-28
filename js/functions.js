@@ -1,8 +1,8 @@
-function addToStr (sourceStr, minLength, additionalChars) {
+function addToStr (sourceStr, minLength, filler) {
   let resultStr = sourceStr;
   while (resultStr.length < minLength) {
     const charsToAdd = minLength - resultStr.length;
-    resultStr = additionalChars.slice(0, charsToAdd) + resultStr;
+    resultStr = filler.slice(0, charsToAdd) + resultStr;
   }
   return resultStr;
 }
