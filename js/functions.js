@@ -1,9 +1,18 @@
-function validateStrLength (str, limit) {
+function isPaliondrome (str) {
+  const processedStr = str.replace(/ /g, '').toLowerCase();
+  let reversedStr = '';
+  for (let i = 0; i < processedStr.length; i++) {
+    reversedStr += processedStr[processedStr.length - (i + 1)];
+  }
+  return processedStr === reversedStr;
+}
+
+function isStrLengthValid (str, limit) {
   return str.length <= limit;
 }
 
-function addToStr (Str, minLength, filler) {
-  let resultStr = Str;
+function addFillToStr (str, minLength, filler) {
+  let resultStr = str;
   while (resultStr.length < minLength) {
     const charsToAdd = minLength - resultStr.length;
     resultStr = filler.slice(0, charsToAdd) + resultStr;
