@@ -1,8 +1,8 @@
 function isPaliondrome (str) {
   const processedStr = str.replace(/ /g, '').toLowerCase();
   let reversedStr = '';
-  for (let i = 0; i < processedStr.length; i++) {
-    reversedStr += processedStr[processedStr.length - (i + 1)];
+  for (let i = 1; i <= processedStr.length; i++) {
+    reversedStr += processedStr[processedStr.length - i];
   }
   return processedStr === reversedStr;
 }
