@@ -26,3 +26,8 @@ function addFillToStr (str, minLength, filler) {
   }
   return resultStr;
 }
+
+isStrLengthValid('abc', 3);
+isPaliondrome('abc');
+extractNumber('abc');
+addFillToStr('abc', 1, 'a');
