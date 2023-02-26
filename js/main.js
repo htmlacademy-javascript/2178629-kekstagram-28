@@ -1,40 +1,40 @@
-const DUMMY_ENTRIES_NUMBER = 10;
+const DUMMY_ENTRIES_NUMBER = 25;
 
 const createSequenceArray = (length) => Array.from({length: length}, (value, index) => ++index);
 
-const setRandomIndex = (array) => Math.floor(Math.random() * (array.length));
-
-const pickNDeleteRandomFromArray = (array) => {
-  const randomIndex = setRandomIndex(array);
-  const value = array.at(randomIndex);
-  array.splice(randomIndex, 1);
-  return value;
-};
-
-const pickRandomInRange = (lim1, lim2 = 1) => {
+const getRandomInRange = (lim1, lim2 = 1) => {
   const min = Math.ceil(Math.min(lim1, lim2));
   const max = Math.floor(Math.max(lim1, lim2));
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const pickUnicRandomInRange = (lim1, lim2 = 1) => {
+const getRandomUnicValue = (array) => {
+  const tempArray = [...array];
+
+  return () => {
+    const randomIndex = getRandomInRange(0, tempArray.length - 1);
+    const value = tempArray.at(randomIndex);
+    tempArray.splice(randomIndex, 1);
+    return value;
+  };
+};
+
+const getRandomUnicInRange = (lim1, lim2 = 1) => {
   const usedValues = [];
 
   return () => {
-    let value = pickRandomInRange(lim1, lim2);
+    let value = getRandomInRange(lim1, lim2);
     while (usedValues.includes(value)) {
-      value = pickRandomInRange(lim1, lim2);
+      value = getRandomInRange(lim1, lim2);
     }
     usedValues.push(value);
     return value;
   };
 };
 
-
 const BASE_IDS_ARRAY = createSequenceArray(DUMMY_ENTRIES_NUMBER);
-const publicationIDs = BASE_IDS_ARRAY.slice();
-const photoIndexes = BASE_IDS_ARRAY.slice();
-const descriptions = [
+const getPhotoIndex = getRandomUnicValue(BASE_IDS_ARRAY);
+const DESCRIPTIONS = [
   'Лагуна. Отельчик на заднем плане',
   'Дoрога на пляж',
   'Вода такая синяя-синяя',
@@ -61,19 +61,9 @@ const descriptions = [
   'Культурная программа II',
   'До Литейного подбросишь?'
 ];
-const getCommentId = pickUnicRandomInRange(1, 200);
+const getCommentId = getRandomUnicInRange(1, 200);
 
-const pickUnicRandomFromArray = (array) => {
-  const tempArray = array.slice();
-  return () => {
-    const index = setRandomIndex(tempArray);
-    const value = tempArray.at(index);
-    tempArray.splice(index, 1);
-    return value;
-  };
-};
-
-const commentPhrases = [
+const COMMENT_PHRASES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -82,7 +72,7 @@ const commentPhrases = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const commentNames = [
+const COMMENT_NAMES = [
   'Василий',
   'Катерина',
   'Сигизмунд',
@@ -95,25 +85,25 @@ const commentNames = [
   'Ричард'
 ];
 
-const createPublication = () => {
+const createPublication = (value, index) => {
   // описание фотографии привязано к индексу файла фотографии - индекс используется в генерации двух свойств
-  const photoIndex = pickNDeleteRandomFromArray(photoIndexes);
+  const photoIndex = getPhotoIndex();
   // отдельное "замыкание" массива с комментариями для генерации каждой отдельной публикации
-  const pickRandomComment = pickUnicRandomFromArray(commentPhrases);
+  const getRandomComment = getRandomUnicValue(COMMENT_PHRASES);
 
   return {
-    id : pickNDeleteRandomFromArray(publicationIDs),
+    id : ++index,
     url : `photos/${photoIndex}.jpg`,
-    description : descriptions.at(photoIndex - 1),
-    likes : pickRandomInRange(15, 200),
+    description : DESCRIPTIONS.at(photoIndex - 1),
+    likes : getRandomInRange(15, 200),
     comments : {
       id : getCommentId(),
-      avatar : `img/avatar-${pickRandomInRange(1, 6)}.svg`,
-      message : Math.random() >= 0.5 ? `${pickRandomComment()} ${pickRandomComment()}` : pickRandomComment(),
-      name : commentNames[setRandomIndex(commentNames)],
+      avatar : `img/avatar-${getRandomInRange(1, 6)}.svg`,
+      message : Math.random() >= 0.5 ? `${getRandomComment()} ${getRandomComment()}` : getRandomComment(),
+      name : COMMENT_NAMES[getRandomInRange(0, COMMENT_NAMES.length - 1)],
     },
   };
 };
 
-// eslint-disable-next-line
+// eslint-disable-next-line no-unused-vars
 const publications = Array.from({length : DUMMY_ENTRIES_NUMBER}, createPublication);
