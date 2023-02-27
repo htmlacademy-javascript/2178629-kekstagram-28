@@ -2,7 +2,7 @@ const isStrLengthValid = (str, limit) => str.length <= limit;
 
 const reverseStr = (str) => str.split('').reverse().join('');
 
-const isPaliondrome = (str) => {
+const isPalindrome = (str) => {
   const processedStr = str.replace(/ /g, '').toLowerCase();
   const reversedStr = reverseStr(processedStr);
   return processedStr === reversedStr;
@@ -24,7 +24,8 @@ const addFillToStr = (str, minLength, filler) => {
   return resultStr;
 };
 
+
 isStrLengthValid('abc', 3);
-isPaliondrome('abc');
+isPalindrome('abc');
 extractNumber('abc');
 addFillToStr('abc', 1, 'a');
