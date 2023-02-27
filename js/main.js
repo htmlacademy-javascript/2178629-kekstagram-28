@@ -1,4 +1,6 @@
 const DUMMY_ENTRIES_NUMBER = 25;
+const MAX_DUMMY_MESSAGE_PHRASES = 2;
+const MAX_COMMENTS_NUMBER = 3;
 
 const createSequenceArray = (length) => Array.from({length: length}, (value, index) => ++index);
 
@@ -19,21 +21,8 @@ const getRandomUnicValue = (array) => {
   };
 };
 
-const getRandomUnicInRange = (lim1, lim2 = 1) => {
-  const usedValues = [];
-
-  return () => {
-    let value = getRandomInRange(lim1, lim2);
-    while (usedValues.includes(value)) {
-      value = getRandomInRange(lim1, lim2);
-    }
-    usedValues.push(value);
-    return value;
-  };
-};
-
-const BASE_IDS_ARRAY = createSequenceArray(DUMMY_ENTRIES_NUMBER);
-const getPhotoIndex = getRandomUnicValue(BASE_IDS_ARRAY);
+const baseIdsArray = createSequenceArray(DUMMY_ENTRIES_NUMBER);
+const getPhotoIndex = getRandomUnicValue(baseIdsArray);
 const DESCRIPTIONS = [
   'Лагуна. Отельчик на заднем плане',
   'Дoрога на пляж',
@@ -61,9 +50,15 @@ const DESCRIPTIONS = [
   'Культурная программа II',
   'До Литейного подбросишь?'
 ];
-const getCommentId = getRandomUnicInRange(1, 200);
 
-const COMMENT_PHRASES = [
+const createIdGenerator = (startPosition = 1) => {
+  let lastItem = startPosition;
+  return () => lastItem++;
+};
+
+const getCommentId = createIdGenerator();
+
+const MESSAGE_PHRASES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -85,23 +80,34 @@ const COMMENT_NAMES = [
   'Ричард'
 ];
 
+const generateMessage = (phrasesArray, maxAmount) => {
+  const getMessagePhrase = getRandomUnicValue(phrasesArray);
+
+  return Array.from({length : getRandomInRange(maxAmount)}, getMessagePhrase).join(' ');
+};
+
+const createCommentObject = () => ({
+  id : getCommentId(),
+  avatar : `img/avatar-${getRandomInRange(1, 6)}.svg`,
+  message : generateMessage(MESSAGE_PHRASES, MAX_DUMMY_MESSAGE_PHRASES),
+  name : COMMENT_NAMES[getRandomInRange(0, COMMENT_NAMES.length - 1)],
+});
+
+const createCommentsArray = (maxAmount) => {
+  const commentsArray = Array.from({length : getRandomInRange(0, maxAmount)}, createCommentObject);
+  return commentsArray.length === 0 ? null : commentsArray;
+};
+
 const createPublication = (value, index) => {
   // описание фотографии привязано к индексу файла фотографии - индекс используется в генерации двух свойств
   const photoIndex = getPhotoIndex();
-  // отдельное "замыкание" массива с комментариями для генерации каждой отдельной публикации
-  const getRandomComment = getRandomUnicValue(COMMENT_PHRASES);
 
   return {
     id : ++index,
     url : `photos/${photoIndex}.jpg`,
     description : DESCRIPTIONS.at(photoIndex - 1),
     likes : getRandomInRange(15, 200),
-    comments : {
-      id : getCommentId(),
-      avatar : `img/avatar-${getRandomInRange(1, 6)}.svg`,
-      message : Math.random() >= 0.5 ? `${getRandomComment()} ${getRandomComment()}` : getRandomComment(),
-      name : COMMENT_NAMES[getRandomInRange(0, COMMENT_NAMES.length - 1)],
-    },
+    comments : createCommentsArray(MAX_COMMENTS_NUMBER),
   };
 };
 

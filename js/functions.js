@@ -24,25 +24,8 @@ const addFillToStr = (str, minLength, filler) => {
   return resultStr;
 };
 
-const createIdGenerator = () => {
-  let lastItem = 0;
-  return () => ++lastItem;
-};
-
-const shuffleArray = (arr) => {
-  const shuffledArray = [...arr];
-  shuffledArray.forEach((value, index) => {
-    const randomIndex = index + Math.floor(Math.random() * (shuffledArray.length - index));
-    [shuffledArray[index], shuffledArray[randomIndex]] = [shuffledArray[randomIndex], shuffledArray[index]];
-    return value;
-  });
-  return shuffledArray;
-};
 
 isStrLengthValid('abc', 3);
 isPalindrome('abc');
 extractNumber('abc');
 addFillToStr('abc', 1, 'a');
-createIdGenerator();
-shuffleArray([1, 2, 3]);
-
