@@ -86,17 +86,14 @@ const generateMessage = (phrasesArray, maxAmount) => {
   return Array.from({length : getRandomInRange(maxAmount)}, getMessagePhrase).join(' ');
 };
 
-const createCommentObject = () => ({
+const createComment = () => ({
   id : getCommentId(),
   avatar : `img/avatar-${getRandomInRange(1, 6)}.svg`,
   message : generateMessage(MESSAGE_PHRASES, MAX_DUMMY_MESSAGE_PHRASES),
   name : COMMENT_NAMES[getRandomInRange(0, COMMENT_NAMES.length - 1)],
 });
 
-const createCommentsArray = (maxAmount) => {
-  const commentsArray = Array.from({length : getRandomInRange(0, maxAmount)}, createCommentObject);
-  return commentsArray.length === 0 ? null : commentsArray;
-};
+const createComments = (maxAmount) => Array.from({length : getRandomInRange(0, maxAmount)}, createComment);
 
 const createPublication = (value, index) => {
   // описание фотографии привязано к индексу файла фотографии - индекс используется в генерации двух свойств
@@ -107,7 +104,7 @@ const createPublication = (value, index) => {
     url : `photos/${photoIndex}.jpg`,
     description : DESCRIPTIONS.at(photoIndex - 1),
     likes : getRandomInRange(15, 200),
-    comments : createCommentsArray(MAX_COMMENTS_NUMBER),
+    comments : createComments(MAX_COMMENTS_NUMBER),
   };
 };
 
