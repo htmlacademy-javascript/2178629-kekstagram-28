@@ -22,7 +22,4 @@ const createIdGenerator = (startPosition = 1) => {
   return () => lastItem++;
 };
 
-export {createSequenceArray};
-export {getRandomInRange};
-export {getRandomUnicValue};
-export {createIdGenerator};
+export { createSequenceArray, getRandomInRange, getRandomUnicValue, createIdGenerator };

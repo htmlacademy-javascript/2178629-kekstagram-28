@@ -1,8 +1,4 @@
-import './utils.js';
-import { createSequenceArray } from './utils.js';
-import { getRandomInRange } from './utils.js';
-import { getRandomUnicValue } from './utils.js';
-import { createIdGenerator } from './utils.js';
+import { createSequenceArray, getRandomInRange, getRandomUnicValue, createIdGenerator } from './utils.js';
 
 const PUBLICATIONS_NUMBER = 25;
 const MAX_MESSAGE_PHRASES = 2;
