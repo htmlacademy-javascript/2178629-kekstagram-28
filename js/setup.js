@@ -1,0 +1,1 @@
+export const PUBLICATIONS_NUMBER = 25;

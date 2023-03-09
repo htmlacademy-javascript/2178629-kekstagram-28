@@ -1,3 +1,1 @@
-import { publications } from './mock-publications.js';
-
-publications();
+import './thumbnails.js';
