@@ -12,8 +12,8 @@ const createCard = ({url, comments, likes}) => {
 };
 
 const renderCards = (publicationsArr) => {
-  const cardsContainer = document.querySelector('.pictures');
   const cardsFragment = document.createDocumentFragment();
+  const cardsContainer = document.querySelector('.pictures');
 
   publicationsArr.forEach((publication) => {
     const card = createCard(publication);
