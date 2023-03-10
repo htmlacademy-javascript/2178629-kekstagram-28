@@ -1,5 +1,5 @@
 import { createSequenceArray, getRandomInRange, getRandomUnicValue, createIdGenerator } from './utils.js';
-import { PUBLICATIONS_NUMBER } from './setup.js';
+import { PUBLICATIONS_NUMBER } from './constants.js';
 
 const MAX_MESSAGE_PHRASES = 2;
 const MAX_COMMENTS_NUMBER = 3;
