@@ -1,11 +1,11 @@
 import { createSequenceArray, getRandomInRange, getRandomUnicValue, createIdGenerator } from './utils.js';
+import { PUBLICATIONS_NUMBER } from './constants.js';
 
-const PUBLICATIONS_NUMBER = 25;
 const MAX_MESSAGE_PHRASES = 2;
 const MAX_COMMENTS_NUMBER = 3;
 const AVATARS_AMOUNT = 6;
-const MIN_LIKES_AMOUNT = 6;
-const MAX_LIKES_AMOUNT = 6;
+const MIN_LIKES_AMOUNT = 15;
+const MAX_LIKES_AMOUNT = 200;
 const DESCRIPTIONS = [
   'Лагуна. Отельчик на заднем плане',
   'Дoрога на пляж',
@@ -88,6 +88,6 @@ const createPublication = (_, index) => {
   };
 };
 
-const publications = () => Array.from({length : PUBLICATIONS_NUMBER}, createPublication);
+const createPublications = () => Array.from({length : PUBLICATIONS_NUMBER}, createPublication);
 
-export {publications};
+export {createPublications};

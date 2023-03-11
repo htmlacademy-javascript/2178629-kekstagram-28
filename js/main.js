@@ -1,3 +1,5 @@
-import { publications } from './mock-publications.js';
+import { createPublications } from './mock-publications.js';
+import { renderCards } from './cards.js';
 
-publications();
+const publications = createPublications();
+renderCards(publications);
