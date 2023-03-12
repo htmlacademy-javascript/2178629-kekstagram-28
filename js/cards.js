@@ -1,3 +1,4 @@
+
 const createCard = ({url, comments, likes}) => {
   const cardTemplate = document.querySelector('#picture')
     .content
