@@ -22,4 +22,6 @@ const createIdGenerator = (startPosition = 1) => {
   return () => lastItem++;
 };
 
-export { createSequenceArray, getRandomInRange, getRandomUnicValue, createIdGenerator };
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export { createSequenceArray, getRandomInRange, getRandomUnicValue, createIdGenerator, isEscapeKey };
