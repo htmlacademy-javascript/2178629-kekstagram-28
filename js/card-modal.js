@@ -21,8 +21,8 @@ const onCloseBtnClick = () => {
 const onCardsClick = (evt) => {
   if (evt.target.closest('.picture')) {
     bigCard.classList.remove('hidden');
-    bigCard.querySelector('.social__comment-count').classList.add('hidden');
-    bigCard.querySelector('.comments-loader').classList.add('hidden');
+    bigCard.querySelector('.social__comment-count').classList.add('hidden'); // временная заглушка
+    bigCard.querySelector('.comments-loader').classList.add('hidden'); // временная заглушка
     closeBtn.addEventListener('click', onCloseBtnClick);
     document.querySelector('body').classList.add('.modal-open');
     document.addEventListener('keydown', onDocumentKeydown);

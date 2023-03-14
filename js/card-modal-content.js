@@ -2,7 +2,20 @@ import{ publications } from './main.js';
 
 const bigCard = document.querySelector('.big-picture');
 const commentsList = bigCard.querySelector('.social__comments');
-const CommentTemplate = bigCard.querySelector('.social__comment');
+const commentTemplate = document.createDocumentFragment();
+commentTemplate.append(commentsList.firstElementChild);
+
+const commentsListFragment = document.createDocumentFragment();
+
+const createComments = ({avatar, name, message}) => {
+  const newComment = commentTemplate.cloneNode(true);
+  const newCommentAvatar = newComment.querySelector('.social__picture');
+  const newCommentText = newComment.querySelector('.social__text');
+  newCommentAvatar.src = avatar;
+  newCommentAvatar.alt = name;
+  newCommentText.textContent = message;
+  commentsListFragment.append(newComment);
+};
 
 const renderBigPicture = (pictureUrl) => {
   const {description, likes, comments} = publications.find((item) => item.url === pictureUrl);
@@ -11,19 +24,9 @@ const renderBigPicture = (pictureUrl) => {
   bigCard.querySelector('.likes-count').textContent = likes;
   bigCard.querySelector('.comments-count').textContent = comments.length;
 
-  const commentsListFragment = document.createDocumentFragment();
-  const elementsToRemove = commentsList.querySelectorAll('.social__comment');
-  elementsToRemove.forEach((element) => element.parentElement.removeChild(element));
+  commentsList.innerHTML = '';
 
-  comments.forEach(({avatar, name, message}) => {
-    const newComment = CommentTemplate.cloneNode(true);
-    const newCommentAvatar = newComment.querySelector('.social__picture');
-    const newCommentText = newComment.querySelector('.social__text');
-    newCommentAvatar.src = avatar;
-    newCommentAvatar.alt = name;
-    newCommentText.textContent = message;
-    commentsListFragment.append(newComment);
-  });
+  comments.forEach(createComments);
 
   commentsList.append(commentsListFragment);
 };
