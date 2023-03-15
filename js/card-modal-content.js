@@ -1,5 +1,3 @@
-import{ publications } from './main.js';
-
 const bigCard = document.querySelector('.big-picture');
 const commentsList = bigCard.querySelector('.social__comments');
 const commentTemplate = document.createDocumentFragment();
@@ -7,26 +5,24 @@ commentTemplate.append(commentsList.firstElementChild);
 
 const commentsListFragment = document.createDocumentFragment();
 
-const createComments = ({avatar, name, message}) => {
+const createComment = ({avatar, name, message}) => {
   const newComment = commentTemplate.cloneNode(true);
-  const newCommentAvatar = newComment.querySelector('.social__picture');
-  const newCommentText = newComment.querySelector('.social__text');
-  newCommentAvatar.src = avatar;
-  newCommentAvatar.alt = name;
-  newCommentText.textContent = message;
+  newComment.querySelector('.social__picture').src = avatar;
+  newComment.querySelector('.social__picture').alt = name;
+  newComment.querySelector('.social__text').textContent = message;
   commentsListFragment.append(newComment);
 };
 
-const renderBigPicture = (pictureUrl) => {
-  const {description, likes, comments} = publications.find((item) => item.url === pictureUrl);
-  bigCard.querySelector('img').src = pictureUrl;
+const renderBigPicture = (publicationsItem) => {
+  const {url, description, likes, comments} = publicationsItem;
+  bigCard.querySelector('img').src = url;
   bigCard.querySelector('.social__caption').textContent = description;
   bigCard.querySelector('.likes-count').textContent = likes;
   bigCard.querySelector('.comments-count').textContent = comments.length;
 
   commentsList.innerHTML = '';
 
-  comments.forEach(createComments);
+  comments.forEach(createComment);
 
   commentsList.append(commentsListFragment);
 };
