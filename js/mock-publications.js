@@ -90,4 +90,6 @@ const createPublication = (_, index) => {
 
 const createPublications = () => Array.from({length : PUBLICATIONS_NUMBER}, createPublication);
 
-export {createPublications};
+const publications = createPublications();
+
+export {publications};

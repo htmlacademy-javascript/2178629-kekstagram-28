@@ -1,9 +1,11 @@
-const createCard = ({url, comments, likes}) => {
+
+const createCard = ({id, url, comments, likes}) => {
   const cardTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
   const card = cardTemplate.cloneNode(true);
 
+  card.setAttribute('data-publication-id', id);
   card.querySelector('.picture__img').src = url;
   card.querySelector('.picture__comments').textContent = comments.length;
   card.querySelector('.picture__likes').textContent = likes;
