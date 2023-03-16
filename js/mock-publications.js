@@ -2,7 +2,7 @@ import { createSequenceArray, getRandomInRange, getRandomUnicValue, createIdGene
 import { PUBLICATIONS_NUMBER } from './constants.js';
 
 const MAX_MESSAGE_PHRASES = 2;
-const MAX_COMMENTS_NUMBER = 3;
+const MAX_COMMENTS_NUMBER = 15;
 const AVATARS_AMOUNT = 6;
 const MIN_LIKES_AMOUNT = 15;
 const MAX_LIKES_AMOUNT = 200;

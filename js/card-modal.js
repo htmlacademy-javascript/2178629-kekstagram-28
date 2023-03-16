@@ -6,6 +6,7 @@ const bigCard = document.querySelector('.big-picture');
 const cards = document.querySelector('.pictures');
 const closeBtn = bigCard.querySelector('.big-picture__cancel');
 
+
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -34,8 +35,6 @@ const unhideBigCard = () => {
 const onCardsClick = (evt) => {
   if (evt.target.closest('.picture')) {
     unhideBigCard();
-    bigCard.querySelector('.social__comment-count').classList.add('hidden'); // временная заглушка
-    bigCard.querySelector('.comments-loader').classList.add('hidden'); // временная заглушка
     document.querySelector('body').classList.add('modal-open');
 
     const publicationId = evt.target.closest('[data-publication-id]').getAttribute('data-publication-id');
