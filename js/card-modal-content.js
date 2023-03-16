@@ -26,7 +26,6 @@ const renderBigPicture = (publicationsItem) => {
   bigCard.querySelector('img').src = url;
   bigCard.querySelector('.social__caption').textContent = description;
   bigCard.querySelector('.likes-count').textContent = likes;
-  bigCard.querySelector('.comments-count').textContent = comments.length;
 
   commentsList.innerHTML = '';
 
@@ -36,6 +35,8 @@ const renderBigPicture = (publicationsItem) => {
     commentsList.append(commentsListFragment);
 
     commentsDisplayed = commentsList.childElementCount;
+
+    bigCard.querySelector('.social__comment-count').textContent = `Комментарии: ${commentsDisplayed} из ${comments.length}`;
 
     if (isAllCommentsDisplayed(comments)) {
       commentsLoaderBtn.classList.add('hidden');
