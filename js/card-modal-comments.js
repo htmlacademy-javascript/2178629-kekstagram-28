@@ -1,13 +1,12 @@
-const COMMENTS_DISPLAY_ONCE = 5;
 const bigCard = document.querySelector('.big-picture');
 const commentsList = bigCard.querySelector('.social__comments');
-const commentTemplate = document.createDocumentFragment();
-commentTemplate.append(commentsList.firstElementChild);
+const commentsListFragment = document.createDocumentFragment();
 const commentsLoaderBtn = bigCard.querySelector('.comments-loader');
 
-const commentsListFragment = document.createDocumentFragment();
-let commentsDisplayed = 0;
-const isAllCommentsDisplayed = (commentsArr) => commentsDisplayed === commentsArr.length;
+const commentTemplate = document.createDocumentFragment();
+commentTemplate.append(commentsList.firstElementChild);
+
+const COMMENTS_DISPLAY_ONCE = 5;
 
 const createComment = ({avatar, name, message}) => {
   const newComment = commentTemplate.cloneNode(true);
@@ -19,16 +18,18 @@ const createComment = ({avatar, name, message}) => {
 
 const renderCommentsPortion = ({comments}) => {
   const commentsToDisplay = comments.slice();
+  let commentsDisplayed = 0;
+
   return () => {
     const currentComments = commentsToDisplay.splice(0, COMMENTS_DISPLAY_ONCE);
     currentComments.forEach(createComment);
     commentsList.append(commentsListFragment);
 
-    commentsDisplayed = commentsList.childElementCount;
+    commentsDisplayed += currentComments.length;
 
     bigCard.querySelector('.social__comment-count').textContent = `Комментарии: ${commentsDisplayed} из ${comments.length}`;
 
-    if (isAllCommentsDisplayed(comments)) {
+    if (!commentsToDisplay.length) {
       commentsLoaderBtn.classList.add('hidden');
     }
   };
