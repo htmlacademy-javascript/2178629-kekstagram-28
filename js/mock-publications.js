@@ -1,8 +1,7 @@
 import { createSequenceArray, getRandomInRange, getRandomUnicValue, createIdGenerator } from './utils.js';
-import { PUBLICATIONS_NUMBER } from './constants.js';
+import { MOCK_PUBLICATIONS_NUMBER, MAX_MOCK_COMMENTS_NUMBER } from './constants.js';
 
 const MAX_MESSAGE_PHRASES = 2;
-const MAX_COMMENTS_NUMBER = 15;
 const AVATARS_AMOUNT = 6;
 const MIN_LIKES_AMOUNT = 15;
 const MAX_LIKES_AMOUNT = 200;
@@ -39,7 +38,8 @@ const MESSAGE_PHRASES = [
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
+  'Красивое... :)'
 ];
 const COMMENT_NAMES = [
   'Василий',
@@ -54,7 +54,7 @@ const COMMENT_NAMES = [
   'Ричард'
 ];
 
-const baseIdsArray = createSequenceArray(PUBLICATIONS_NUMBER);
+const baseIdsArray = createSequenceArray(MOCK_PUBLICATIONS_NUMBER);
 
 const getPhotoIndex = getRandomUnicValue(baseIdsArray);
 
@@ -84,11 +84,11 @@ const createPublication = (_, index) => {
     url : `photos/${photoIndex}.jpg`,
     description : DESCRIPTIONS.at(photoIndex - 1),
     likes : getRandomInRange(MIN_LIKES_AMOUNT, MAX_LIKES_AMOUNT),
-    comments : createComments(MAX_COMMENTS_NUMBER),
+    comments : createComments(MAX_MOCK_COMMENTS_NUMBER),
   };
 };
 
-const createPublications = () => Array.from({length : PUBLICATIONS_NUMBER}, createPublication);
+const createPublications = () => Array.from({length : MOCK_PUBLICATIONS_NUMBER}, createPublication);
 
 const publications = createPublications();
 
