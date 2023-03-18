@@ -1,10 +1,15 @@
 import { isEscapeKey } from './utils.js';
 import { renderBigPicture } from './card-modal-content.js';
+import { renderCommentsPortion } from './card-modal-comments.js';
 import { publications } from './mock-publications.js';
 
 const bigCard = document.querySelector('.big-picture');
 const cards = document.querySelector('.pictures');
 const closeBtn = bigCard.querySelector('.big-picture__cancel');
+const commentsLoaderBtn = bigCard.querySelector('.comments-loader');
+let publication;
+let renderComments;
+
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -21,29 +26,38 @@ function hideBigCard() {
   bigCard.classList.add('hidden');
   document.body.classList.remove('modal-open');
   closeBtn.removeEventListener('click', onCloseBtnClick);
+  bigCard.removeEventListener('click', onCommentsLoaderButtonClick);
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-const unhideBigCard = () => {
+const openBigCard = () => {
   bigCard.classList.remove('hidden');
   document.body.classList.add('modal-open');
   closeBtn.addEventListener('click', onCloseBtnClick);
+  bigCard.addEventListener('click', onCommentsLoaderButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
 const onCardsClick = (evt) => {
   if (evt.target.closest('.picture')) {
-    unhideBigCard();
-    bigCard.querySelector('.social__comment-count').classList.add('hidden'); // временная заглушка
-    bigCard.querySelector('.comments-loader').classList.add('hidden'); // временная заглушка
+    openBigCard();
     document.querySelector('body').classList.add('modal-open');
 
     const publicationId = evt.target.closest('[data-publication-id]').getAttribute('data-publication-id');
-    const publication = publications.find((item) => item.id === +publicationId);
+    publication = publications.find((item) => item.id === +publicationId);
 
     renderBigPicture(publication);
+
+    renderComments = renderCommentsPortion(publication);
+    renderComments();
   }
 };
+
+function onCommentsLoaderButtonClick (evt) {
+  if (evt.target === commentsLoaderBtn) {
+    renderComments();
+  }
+}
 
 const activateBigPicture = () => cards.addEventListener('click', onCardsClick);
 
