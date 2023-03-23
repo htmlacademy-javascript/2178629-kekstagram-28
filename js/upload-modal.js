@@ -1,6 +1,6 @@
 import { isEscapeKey } from './utils.js';
 
-const openUploadModalBtn = document.querySelector('.img-upload');
+const imageUploadField = document.querySelector('.img-upload');
 const uploadModal = document.querySelector('.img-upload__overlay');
 const uploadForm = document.querySelector('.img-upload__form');
 const canselUploadModalBtn = uploadModal.querySelector('.img-upload__cancel');
@@ -37,7 +37,7 @@ function closeUploadModal() {
   canselUploadModalBtn.removeEventListener('click', closeUploadModal);
 }
 
-const onOpenUploadModalBtnChange = () => {
+const onImageUploadFieldChange = () => {
   uploadModal.classList.remove('hidden');
   document.body.classList.add('modal-open');
   canselUploadModalBtn.addEventListener('click', closeUploadModal);
@@ -81,6 +81,6 @@ const onUploadFormSubmit = (evt) => {
 
 uploadForm.addEventListener('submit', onUploadFormSubmit);
 
-const activateUploadModal = () => openUploadModalBtn.addEventListener('change', onOpenUploadModalBtnChange);
+const activateUploadModal = () => imageUploadField.addEventListener('change', onImageUploadFieldChange);
 
 export { activateUploadModal };
