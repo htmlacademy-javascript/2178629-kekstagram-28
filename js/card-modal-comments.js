@@ -6,7 +6,7 @@ const commentsLoaderBtn = bigCard.querySelector('.comments-loader');
 const commentTemplate = document.createDocumentFragment();
 commentTemplate.append(commentsList.firstElementChild);
 
-const COMMENTS_DISPLAY_ONCE = 5;
+const COMMENTS_PER_PORTION = 5;
 
 const createComment = ({avatar, name, message}) => {
   const newComment = commentTemplate.cloneNode(true);
@@ -21,7 +21,7 @@ const renderCommentsPortion = ({comments}) => {
   let commentsDisplayed = 0;
 
   return () => {
-    const currentComments = commentsToDisplay.splice(0, COMMENTS_DISPLAY_ONCE);
+    const currentComments = commentsToDisplay.splice(0, COMMENTS_PER_PORTION);
     currentComments.forEach(createComment);
     commentsList.append(commentsListFragment);
 
