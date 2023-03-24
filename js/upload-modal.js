@@ -86,19 +86,23 @@ tagsField.addEventListener('input', onTagsFieldInput);
 pristine.addValidator(
   tagsField,
   validateTag,
-  ERROR_MESSAGES.VALIDATE_TAG
+  ERROR_MESSAGES.VALIDATE_TAG,
+  2,
+  true
 );
 
 pristine.addValidator(
   tagsField,
   isUnicTags,
-  ERROR_MESSAGES.UNIC_TAG
+  ERROR_MESSAGES.UNIC_TAG,
+  1,
+  true
 );
 
 pristine.addValidator(
   tagsField,
   isTagsCountValid,
-  ERROR_MESSAGES.TAG_COUNT
+  ERROR_MESSAGES.TAG_COUNT,
 );
 
 
