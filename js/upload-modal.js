@@ -2,6 +2,10 @@ import {
   isEscapeKey,
   isUnicItems
 } from './utils.js';
+import {
+  resetScale,
+  removeScaleListeners
+} from './upload-scale.js';
 
 const imageUploadField = document.querySelector('.img-upload');
 const uploadModal = document.querySelector('.img-upload__overlay');
@@ -50,6 +54,7 @@ function closeUploadModal() {
   uploadForm.reset();
   tagsField.removeEventListener('input', onTagsFieldInput);
   canselUploadModalBtn.removeEventListener('click', closeUploadModal);
+  removeScaleListeners();
 }
 
 const onImageUploadFieldChange = () => {
@@ -59,6 +64,7 @@ const onImageUploadFieldChange = () => {
   document.addEventListener('keydown', onDocumentKeydown);
   tagsField.addEventListener('input', onTagsFieldInput);
   pristine.reset();
+  resetScale();
 };
 
 
