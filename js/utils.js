@@ -24,4 +24,16 @@ const createIdGenerator = (startPosition = 1) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { createSequenceArray, getRandomInRange, getRandomUnicValue, createIdGenerator, isEscapeKey };
+const isUnicItems = (arr, isConsiderCase = true) => {
+  const uniqueItemsSet = new Set(isConsiderCase ? arr : arr.map((item) => item.toLowerCase()));
+  return uniqueItemsSet.size === arr.length;
+};
+
+export {
+  createSequenceArray,
+  getRandomInRange,
+  getRandomUnicValue,
+  createIdGenerator,
+  isEscapeKey,
+  isUnicItems
+};

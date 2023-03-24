@@ -1,4 +1,7 @@
-import { isEscapeKey } from './utils.js';
+import {
+  isEscapeKey,
+  isUnicItems
+} from './utils.js';
 
 const imageUploadField = document.querySelector('.img-upload');
 const uploadModal = document.querySelector('.img-upload__overlay');
@@ -7,11 +10,11 @@ const canselUploadModalBtn = uploadModal.querySelector('.img-upload__cancel');
 const tagsField = uploadForm.querySelector('.text__hashtags');
 const descriptionField = uploadForm.querySelector('.text__description');
 
-const VALID_TAG_REGEX = /^#[a-zа-яё0-9]{2,19}$/i;
+const VALID_TAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_TAGS_PER_PUBLICATIONS = 5;
 const ERROR_MESSAGES = {
-  VALIDATE_TAG : 'Неверный хэштег (должен начинаться с #)',
-  UNIC_TAG : 'Каждый хэштэг должен быть уникальным',
+  VALIDATE_TAG : 'Хэштег должен начинаться с \'#\', \nне может состоять только из \'#\'',
+  UNIC_TAG : 'Каждый хэштег должен быть уникальным',
   TAG_COUNT : 'Допустимо не более пяти уникальных хэштегов'
 };
 let tags = '';
@@ -34,11 +37,18 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+const normalizeStrSpaces = (str) => (str.replaceAll(/ {2,}/g, ' '));
+
+const onTagsFieldInput = () => {
+  tagsField.value = normalizeStrSpaces(tagsField.value);
+};
+
 function closeUploadModal() {
   uploadModal.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   document.body.classList.remove('modal-open');
   uploadForm.reset();
+  tagsField.removeEventListener('input', onTagsFieldInput);
   canselUploadModalBtn.removeEventListener('click', closeUploadModal);
 }
 
@@ -47,10 +57,10 @@ const onImageUploadFieldChange = () => {
   document.body.classList.add('modal-open');
   canselUploadModalBtn.addEventListener('click', closeUploadModal);
   document.addEventListener('keydown', onDocumentKeydown);
+  tagsField.addEventListener('input', onTagsFieldInput);
   pristine.reset();
 };
 
-const normalizeStrSpaces = (str) => (str.replaceAll(/ {2,}/g, ' '));
 
 const createTags = (str) => str.trim().split(' ');
 
@@ -61,20 +71,14 @@ const validateTag = (val) => {
   return tags.every(isValidTag);
 };
 
-const isUnicItems = (val) => {
+const isUnicTags = (val) => {
   tags = createTags(val);
-  const lowerCaseTags = tags.map((item) => item.toLowerCase());
-  const uniqueItemsSet = new Set(lowerCaseTags);
-  return uniqueItemsSet.size === lowerCaseTags.length;
+  return isUnicItems(tags, false);
 };
 
 const isTagsCountValid = (val) => {
   tags = createTags(val);
   return tags.length <= MAX_TAGS_PER_PUBLICATIONS;
-};
-
-const onTagsFieldInput = () => {
-  tagsField.value = normalizeStrSpaces(tagsField.value);
 };
 
 tagsField.addEventListener('input', onTagsFieldInput);
@@ -87,7 +91,7 @@ pristine.addValidator(
 
 pristine.addValidator(
   tagsField,
-  isUnicItems,
+  isUnicTags,
   ERROR_MESSAGES.UNIC_TAG
 );
 
@@ -97,11 +101,12 @@ pristine.addValidator(
   ERROR_MESSAGES.TAG_COUNT
 );
 
+
 const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
-    tagsField.value = tags.join(' ');
+    tagsField.value.trim();
     uploadForm.submit();
   }
 };
