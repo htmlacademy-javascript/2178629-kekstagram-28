@@ -22,7 +22,7 @@ const resetScale = () => {
 
 const onScaleDecreaseBtnClick = () => {
   imgScale -= IMG_SCALE_STEP;
-  if (imgScale <= IMG_SCALE_MIN) {
+  if (imgScale < IMG_SCALE_MIN) {
     imgScale = IMG_SCALE_MIN;
   }
   setItemsScale(imgScale);
@@ -31,16 +31,11 @@ const onScaleDecreaseBtnClick = () => {
 
 const onScaleIncreaseBtnClick = () => {
   imgScale += IMG_SCALE_STEP;
-  if (imgScale >= IMG_SCALE_MAX) {
+  if (imgScale > IMG_SCALE_MAX) {
     imgScale = IMG_SCALE_MAX;
   }
   setItemsScale(imgScale);
   return imgScale;
-};
-
-const removeScaleListeners = () => {
-  scaleIncreaseBtn.removeEventListener('click', onScaleIncreaseBtnClick);
-  scaleDecreaseBtn.removeEventListener('click', onScaleDecreaseBtnClick);
 };
 
 scaleIncreaseBtn.addEventListener('click', onScaleIncreaseBtnClick);
@@ -48,5 +43,4 @@ scaleDecreaseBtn.addEventListener('click', onScaleDecreaseBtnClick);
 
 export {
   resetScale,
-  removeScaleListeners
 };
