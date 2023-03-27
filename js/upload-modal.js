@@ -2,8 +2,10 @@ import {
   isEscapeKey,
   isUnicItems
 } from './utils.js';
+import { resetScale } from './upload-scale.js';
+import { resetEffect } from './upload-effects.js';
 
-const imageUploadField = document.querySelector('.img-upload');
+const imageUploadField = document.querySelector('.img-upload__input');
 const uploadModal = document.querySelector('.img-upload__overlay');
 const uploadForm = document.querySelector('.img-upload__form');
 const canselUploadModalBtn = uploadModal.querySelector('.img-upload__cancel');
@@ -47,18 +49,20 @@ function closeUploadModal() {
   uploadModal.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   document.body.classList.remove('modal-open');
-  uploadForm.reset();
   tagsField.removeEventListener('input', onTagsFieldInput);
   canselUploadModalBtn.removeEventListener('click', closeUploadModal);
+  uploadForm.reset();
 }
 
 const onImageUploadFieldChange = () => {
+  resetScale();
+  resetEffect();
+  pristine.reset();
   uploadModal.classList.remove('hidden');
   document.body.classList.add('modal-open');
   canselUploadModalBtn.addEventListener('click', closeUploadModal);
   document.addEventListener('keydown', onDocumentKeydown);
   tagsField.addEventListener('input', onTagsFieldInput);
-  pristine.reset();
 };
 
 
