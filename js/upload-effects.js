@@ -1,4 +1,4 @@
-const EffectsSettings = {
+const effectsSettings = {
   none : {
     filter : 'none',
     units : '',
@@ -96,7 +96,7 @@ const showSlider = () => {
   sliderContainer.classList.remove('hidden');
 };
 
-noUiSlider.create(slider, EffectsSettings[currentEffect].options);
+noUiSlider.create(slider, effectsSettings[currentEffect].options);
 
 const removeFilter = () => {
   imagePreview.style.filter = '';
@@ -104,7 +104,7 @@ const removeFilter = () => {
 
 const updateSlider = (effect) => {
   imagePreview.className = `effects__preview--${effect}`;
-  slider.noUiSlider.updateOptions(EffectsSettings[effect].options);
+  slider.noUiSlider.updateOptions(effectsSettings[effect].options);
   if (effect === DEFAULT_EFFECT) {
     hideSlider();
     removeFilter();
@@ -121,9 +121,9 @@ const onEffectsChange = (evt) => {
 };
 
 slider.noUiSlider.on('update', () => {
-  const filterName = EffectsSettings[currentEffect].filter;
+  const filterName = effectsSettings[currentEffect].filter;
   const filterValue = slider.noUiSlider.get();
-  const filterUnits = EffectsSettings[currentEffect].units;
+  const filterUnits = effectsSettings[currentEffect].units;
   imagePreview.style.filter = `${filterName}(${filterValue}${filterUnits})`;
   effectLevelValue.value = filterValue;
 });
