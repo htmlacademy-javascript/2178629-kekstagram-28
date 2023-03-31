@@ -12,6 +12,8 @@ const uploadForm = document.querySelector('.img-upload__form');
 const canselUploadModalBtn = uploadModal.querySelector('.img-upload__cancel');
 const tagsField = uploadForm.querySelector('.text__hashtags');
 const descriptionField = uploadForm.querySelector('.text__description');
+const uploadSuccessModal = document.querySelector('#success').content.querySelector('.success');
+const uploadSuccessModalBtn = uploadSuccessModal.querySelector('.success__button');
 
 const VALID_TAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_TAGS_PER_PUBLICATIONS = 5;
@@ -47,6 +49,7 @@ const onTagsFieldInput = () => {
 };
 
 function closeUploadModal() {
+  closeSuccessModal();
   uploadModal.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   document.body.classList.remove('modal-open');
@@ -110,6 +113,23 @@ pristine.addValidator(
   ERROR_MESSAGES.TAG_COUNT,
 );
 
+function closeSuccessModal() {
+  uploadSuccessModal.remove();
+}
+
+const showSuccessModal = () =>{
+  document.body.append(uploadSuccessModal);
+  uploadSuccessModalBtn.addEventListener('click', (evt) => {
+    if (evt.target === uploadSuccessModalBtn || evt.target.closest(uploadSuccessModal) !== uploadSuccessModal) {
+      closeSuccessModal();
+      closeUploadModal();
+    }
+  });
+  // window.addEventListener('click', (evt) => {
+  //   closeSuccessModal();
+  //   closeUploadModal();
+  // });
+};
 
 const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
@@ -117,7 +137,7 @@ const onUploadFormSubmit = (evt) => {
   if (isValid) {
     tagsField.value.trim();
     const formData = new FormData(uploadForm);
-    uploadPublication(formData, closeUploadModal());
+    uploadPublication(formData, showSuccessModal);
   }
 };
 

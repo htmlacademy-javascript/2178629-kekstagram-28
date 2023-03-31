@@ -1,20 +1,19 @@
 
 function uploadPublication(body, onSuccess) {
   fetch(
-    'https://28.javascript.pages.academy/kekstagram1',
+    'https://28.javascript.pages.academy/kekstagram',
     {
       method: 'POST',
       body,
     },)
     .then((response) => {
-      console.log(response.ok);
       if (!response.ok) {
-        new Error();
+        throw new Error();
       } else {
-      onSuccess();
+        onSuccess();
       }
     })
-    .catch((err) => console.log('лажа'));
+    .catch((err) => console.log(err));
 }
 
 export { uploadPublication };
