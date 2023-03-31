@@ -4,6 +4,7 @@ import {
 } from './utils.js';
 import { resetScale } from './upload-scale.js';
 import { resetEffect } from './upload-effects.js';
+import { uploadPublication } from './upload-publicatoin.js';
 
 const imageUploadField = document.querySelector('.img-upload__input');
 const uploadModal = document.querySelector('.img-upload__overlay');
@@ -115,7 +116,8 @@ const onUploadFormSubmit = (evt) => {
   const isValid = pristine.validate();
   if (isValid) {
     tagsField.value.trim();
-    uploadForm.submit();
+    const formData = new FormData(uploadForm);
+    uploadPublication(formData, closeUploadModal());
   }
 };
 
