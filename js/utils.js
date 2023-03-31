@@ -29,11 +29,34 @@ const isUnicItems = (arr, isConsiderCase = true) => {
   return uniqueItemsSet.size === arr.length;
 };
 
+const showAlert = (message, showAlertTime) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = '100';
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '20px';
+  alertContainer.style.top = '20px';
+  alertContainer.style.right = '20px';
+  alertContainer.style.padding = '10px 6px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.lineHeight = '32px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, showAlertTime);
+};
+
 export {
   createSequenceArray,
   getRandomInRange,
   getRandomUnicValue,
   createIdGenerator,
   isEscapeKey,
-  isUnicItems
+  isUnicItems,
+  showAlert
 };

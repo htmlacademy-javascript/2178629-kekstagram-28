@@ -1,7 +1,9 @@
 import { isEscapeKey } from './utils.js';
 import { renderBigPicture } from './card-modal-content.js';
 import { renderCommentsPortion } from './card-modal-comments.js';
-import { publications } from './mock-publications.js';
+// import { publications } from './mock-publications.js';
+// import { publicationsDownloaded } from './get-publications.js';
+import { publications } from './main.js';
 
 const bigCard = document.querySelector('.big-picture');
 const cards = document.querySelector('.pictures');
