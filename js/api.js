@@ -1,11 +1,44 @@
-// import { renderCards } from './cards.js';
+import { showAlert } from './utils.js';
+import { ALERT_SHOW_TIME } from './constants.js';
 
-// const getPublications = (onSuccsee) => {
-//   fetch('https://28.javascript.pages.academy/kekstagram/data')
-//     .then((response) => response.json())
-//     .then((publications) => {
-//       onSuccsee(publications);
-//     });
-// };
+const BASE_URL = 'https://28.javascript.pages.academy/kekstagram';
+const Route = {
+  GET_DATA : '/data',
+  SEND_DATA : '/'
+};
+const Method = {
+  GET : 'GET',
+  POST : 'POST'
+};
+const GET_DATA_ERROR_MESSAGE = 'Что-то пошло не так... Попробуйте перегрузить страницу.';
 
-// export {getPublications};
+const emptyFunction = () => {};
+const onGetDataError = () => showAlert(GET_DATA_ERROR_MESSAGE, ALERT_SHOW_TIME);
+
+const load = (
+  route = Route.SEND_DATA,
+  method = Method.GET,
+  body = null,
+  onSuccess = emptyFunction,
+  onError = onGetDataError,
+  onFinale = emptyFunction,
+) => fetch(`${BASE_URL}${route}`, {method : method, body})
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error();
+    } else {
+      onSuccess();
+      return response.json();
+    }
+  })
+  .catch(() => onError())
+  .finally(() => onFinale());
+
+const getPublications = () => load(Route.GET_DATA);
+
+const uploadPublication = (body, onSuccess, onError, onFinale) => load(Route.SEND_DATA, Method.POST, body, onSuccess, onError, onFinale);
+
+export {
+  getPublications,
+  uploadPublication
+};

@@ -4,7 +4,7 @@ import {
 } from './utils.js';
 import { resetScale } from './upload-scale.js';
 import { resetEffect } from './upload-effects.js';
-import { uploadPublication } from './upload-publicatoin.js';
+import { uploadPublication } from './api.js';
 
 const imageUploadField = document.querySelector('.img-upload__input');
 const uploadModal = document.querySelector('.img-upload__overlay');
@@ -20,10 +20,14 @@ const uploadErrorModalBtn = uploadErrorModal.querySelector('.error__button');
 
 const VALID_TAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_TAGS_PER_PUBLICATIONS = 5;
-const ERROR_MESSAGES = {
+const ErrorMessages = {
   VALIDATE_TAG : 'Хэштег должен начинаться с \'#\', \nне может состоять только из \'#\'',
   UNIC_TAG : 'Каждый хэштег должен быть уникальным',
   TAG_COUNT : 'Допустимо не более пяти уникальных хэштегов'
+};
+const SubmitButtonText = {
+  IDLE : 'Опубликовать',
+  SENDING : 'Отправляется'
 };
 let tags = '';
 
@@ -69,10 +73,8 @@ const onImageUploadFieldChange = () => {
   document.body.classList.add('modal-open');
   canselUploadModalBtn.addEventListener('click', closeUploadModal);
   document.onkeydown = onDocumentKeydown;
-  // document.addEventListener('keydown', onDocumentKeydown);
   tagsField.addEventListener('input', onTagsFieldInput);
 };
-
 
 const createTags = (str) => str.trim().split(' ');
 
@@ -98,7 +100,7 @@ tagsField.addEventListener('input', onTagsFieldInput);
 pristine.addValidator(
   tagsField,
   validateTag,
-  ERROR_MESSAGES.VALIDATE_TAG,
+  ErrorMessages.VALIDATE_TAG,
   2,
   true
 );
@@ -106,7 +108,7 @@ pristine.addValidator(
 pristine.addValidator(
   tagsField,
   isUnicTags,
-  ERROR_MESSAGES.UNIC_TAG,
+  ErrorMessages.UNIC_TAG,
   1,
   true
 );
@@ -114,7 +116,7 @@ pristine.addValidator(
 pristine.addValidator(
   tagsField,
   isTagsCountValid,
-  ERROR_MESSAGES.TAG_COUNT,
+  ErrorMessages.TAG_COUNT,
 );
 
 function closeSuccessModal() {
@@ -132,10 +134,6 @@ const showSuccessModal = () => {
     closeSuccessModal();
     closeUploadModal();
   });
-  // window.addEventListener('click', (evt) => {
-  //   closeSuccessModal();
-  //   closeUploadModal();
-  // });
 };
 
 const showErrorModal = () => {
@@ -158,12 +156,12 @@ const showErrorModal = () => {
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
-  // submitButton.textContent = SubmitButtonText.SENDING;
+  submitButton.textContent = SubmitButtonText.SENDING;
 };
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
-  // submitButton.textContent = SubmitButtonText.IDLE;
+  submitButton.textContent = SubmitButtonText.IDLE;
 };
 
 const onUploadFormSubmit = (evt) => {
