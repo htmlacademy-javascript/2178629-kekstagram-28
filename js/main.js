@@ -4,7 +4,7 @@ import { activateBigPicture } from './card-modal.js';
 import { activateUploadModal } from './upload-modal.js';
 import { getPublications } from './get-publications.js';
 
-const publications = await getPublications();
+const publications = await getPublications ();
 
 renderCards(publications);
 activateBigPicture();

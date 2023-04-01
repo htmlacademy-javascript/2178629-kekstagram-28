@@ -4,7 +4,7 @@ const effectsSettings = {
     units : '',
     options : {
       connect : 'lower',
-      start : 100,
+      start : 0,
       step : 1,
       range : {
         min : 0,

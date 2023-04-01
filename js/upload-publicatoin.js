@@ -1,5 +1,5 @@
 
-function uploadPublication(body, onSuccess) {
+const uploadPublication = (body, onSuccess, onError, onFinale) => {
   fetch(
     'https://28.javascript.pages.academy/kekstagram',
     {
@@ -13,8 +13,9 @@ function uploadPublication(body, onSuccess) {
         onSuccess();
       }
     })
-    .catch((err) => console.log(err));
-}
+    .catch(() => onError())
+    .finally(() => onFinale());
+};
 
 export { uploadPublication };
 
