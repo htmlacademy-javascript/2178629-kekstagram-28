@@ -1,5 +1,5 @@
-const effectsSettings = {
-  none : {
+const EffectsSettings = {
+  NONE : {
     filter : 'none',
     units : '',
     options : {
@@ -12,7 +12,7 @@ const effectsSettings = {
       }
     }
   },
-  chrome : {
+  CHROME : {
     filter : 'grayscale',
     units : '',
     options : {
@@ -25,7 +25,7 @@ const effectsSettings = {
       }
     }
   },
-  sepia : {
+  SEPIA : {
     filter : 'sepia',
     units : '',
     options : {
@@ -38,7 +38,7 @@ const effectsSettings = {
       }
     }
   },
-  marvin : {
+  MARVIN : {
     filter : 'invert',
     units : '%',
     options : {
@@ -51,7 +51,7 @@ const effectsSettings = {
       },
     }
   },
-  phobos : {
+  PHOBOS : {
     filter : 'blur',
     units : 'px',
     options : {
@@ -64,7 +64,7 @@ const effectsSettings = {
       },
     }
   },
-  heat : {
+  HEAT : {
     filter : 'brightness',
     units : '',
     options : {
@@ -84,7 +84,7 @@ const imagePreview = document.querySelector('.img-upload__preview img');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 const slider = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
-const DEFAULT_EFFECT = 'none';
+const DEFAULT_EFFECT = 'NONE';
 
 let currentEffect = DEFAULT_EFFECT;
 
@@ -96,7 +96,7 @@ const showSlider = () => {
   sliderContainer.classList.remove('hidden');
 };
 
-noUiSlider.create(slider, effectsSettings[currentEffect].options);
+noUiSlider.create(slider, EffectsSettings[currentEffect].options);
 
 const removeFilter = () => {
   imagePreview.style.filter = '';
@@ -104,7 +104,7 @@ const removeFilter = () => {
 
 const updateSlider = (effect) => {
   imagePreview.className = `effects__preview--${effect}`;
-  slider.noUiSlider.updateOptions(effectsSettings[effect].options);
+  slider.noUiSlider.updateOptions(EffectsSettings[effect].options);
   if (effect === DEFAULT_EFFECT) {
     hideSlider();
     removeFilter();
@@ -115,15 +115,15 @@ const updateSlider = (effect) => {
 
 const onEffectsChange = (evt) => {
   if (evt.target.matches('.effects__radio')) {
-    currentEffect = evt.target.value;
+    currentEffect = evt.target.value.toUpperCase();
   }
   updateSlider(currentEffect);
 };
 
 slider.noUiSlider.on('update', () => {
-  const filterName = effectsSettings[currentEffect].filter;
+  const filterName = EffectsSettings[currentEffect].filter;
   const filterValue = slider.noUiSlider.get();
-  const filterUnits = effectsSettings[currentEffect].units;
+  const filterUnits = EffectsSettings[currentEffect].units;
   imagePreview.style.filter = `${filterName}(${filterValue}${filterUnits})`;
   effectLevelValue.value = filterValue;
 });
