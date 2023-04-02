@@ -3,7 +3,7 @@ import { renderBigPicture } from './card-modal-content.js';
 import { renderCommentsPortion } from './card-modal-comments.js';
 // import { publications } from './mock-publications.js';
 // import { publicationsDownloaded } from './get-publications.js';
-import { publications } from './main.js';
+// import { publications } from './main.js';
 
 const bigCard = document.querySelector('.big-picture');
 const cards = document.querySelector('.pictures');
@@ -40,13 +40,13 @@ const openBigCard = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const onCardsClick = (evt) => {
+const onCardsClick = (publicationsArray) => (evt) => {
   if (evt.target.closest('.picture')) {
     openBigCard();
     document.querySelector('body').classList.add('modal-open');
 
     const publicationId = evt.target.closest('[data-publication-id]').getAttribute('data-publication-id');
-    publication = publications.find((item) => item.id === +publicationId);
+    publication = publicationsArray.find((item) => item.id === +publicationId);
 
     renderBigPicture(publication);
 
@@ -61,6 +61,6 @@ function onCommentsLoaderButtonClick (evt) {
   }
 }
 
-const activateBigPicture = () => cards.addEventListener('click', onCardsClick);
+const activateBigPicture = (publicationsArray) => cards.addEventListener('click', onCardsClick(publicationsArray));
 
 export { activateBigPicture };

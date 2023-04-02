@@ -1,12 +1,21 @@
-import { renderCards } from './cards.js';
+import { renderCards } from './render-cards.js';
 import { activateBigPicture } from './card-modal.js';
 import { activateUploadModal } from './upload-modal.js';
-import { getPublications } from './api.js';
+import {
+  getPublications,
+  onGetDataError
+} from './api.js';
 
-const publications = await getPublications ();
+// let publications = [];
 
-renderCards(publications);
-activateBigPicture();
+(async () => {
+  try {
+    const publications = await getPublications ();
+    renderCards(publications);
+    activateBigPicture(publications);
+  } catch(err) {
+    onGetDataError();
+  }
+})();
+
 activateUploadModal();
-
-export { publications };

@@ -40,5 +40,6 @@ const uploadPublication = (body, onSuccess, onError, onFinale) => load(Route.SEN
 
 export {
   getPublications,
-  uploadPublication
+  uploadPublication,
+  onGetDataError
 };
