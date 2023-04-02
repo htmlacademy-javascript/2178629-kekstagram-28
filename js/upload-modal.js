@@ -90,14 +90,9 @@ const showErrorModal = () => {
   });
 };
 
-const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = SubmitButtonText.SENDING;
-};
-
-const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = SubmitButtonText.IDLE;
+const toggleSubmitButtonDisabled = (isDisabled, buttonText) => {
+  submitButton.disabled = isDisabled;
+  submitButton.textContent = buttonText;
 };
 
 const onUploadFormSubmit = (evt) => {
@@ -106,8 +101,8 @@ const onUploadFormSubmit = (evt) => {
   if (isValid) {
     tagsField.value.trim();
     const formData = new FormData(uploadForm);
-    blockSubmitButton();
-    uploadPublication(formData, showSuccessModal, showErrorModal, unblockSubmitButton);
+    toggleSubmitButtonDisabled(true, SubmitButtonText.SENDING);
+    uploadPublication(formData, showSuccessModal, showErrorModal, toggleSubmitButtonDisabled(false, SubmitButtonText.IDLE));
   }
 };
 
