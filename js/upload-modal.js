@@ -1,6 +1,4 @@
-import {
-  isEscapeKey,
-} from './utils.js';
+import { isEscapeKey } from './utils.js';
 import { resetScale } from './upload-scale.js';
 import { resetEffect } from './upload-effects.js';
 import {
@@ -15,10 +13,10 @@ const uploadForm = document.querySelector('.img-upload__form');
 const canselUploadModalBtn = uploadModal.querySelector('.img-upload__cancel');
 const tagsField = uploadForm.querySelector('.text__hashtags');
 const descriptionField = uploadForm.querySelector('.text__description');
-const uploadSuccessModal = document.querySelector('#success').content.querySelector('.success');
-const uploadSuccessModalBtn = uploadSuccessModal.querySelector('.success__button');
-const uploadErrorModal = document.querySelector('#error').content.querySelector('.error');
-const uploadErrorModalBtn = uploadErrorModal.querySelector('.error__button');
+// const uploadSuccessModal = document.querySelector('#success').content.querySelector('.success');
+// const uploadSuccessModalBtn = uploadSuccessModal.querySelector('.success__button');
+// const uploadErrorModal = document.querySelector('#error').content.querySelector('.error');
+// const uploadErrorModalBtn = uploadErrorModal.querySelector('.error__button');
 
 const isTextFieldsActive = () => (
   document.activeElement === tagsField ||
@@ -33,7 +31,7 @@ const onDocumentKeydown = (evt) => {
 };
 
 function closeUploadModal() {
-  closeSuccessModal();
+  // closeSuccessModal();
   uploadModal.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   document.body.classList.remove('modal-open');
@@ -48,46 +46,47 @@ const onImageUploadFieldChange = () => {
   uploadModal.classList.remove('hidden');
   document.body.classList.add('modal-open');
   canselUploadModalBtn.addEventListener('click', closeUploadModal);
-  document.onkeydown = onDocumentKeydown;
+  document.addEventListener('keydown', onDocumentKeydown);
 };
 
-function closeSuccessModal() {
-  uploadSuccessModal.remove();
-}
+// function closeSuccessModal() {
+//   uploadSuccessModal.remove();
+// }
 
-function closeErrorModal() {
-  uploadErrorModal.remove();
-  document.onkeydown = onDocumentKeydown;
-}
+// function closeErrorModal() {
+//   uploadErrorModal.remove();
+//   document.onkeydown = onDocumentKeydown;
+// }
 
-const showSuccessModal = () => {
-  document.body.append(uploadSuccessModal);
-  uploadSuccessModalBtn.addEventListener('click', () => {
-    closeSuccessModal();
-    closeUploadModal();
-  });
-};
+// const showSuccessModal = () => {
+//   document.body.append(uploadSuccessModal);
+//   uploadSuccessModalBtn.addEventListener('click', () => {
+//     closeSuccessModal();
+//     closeUploadModal();
+//   });
+// };
 
-const showErrorModal = () => {
-  document.body.append(uploadErrorModal);
-  uploadErrorModalBtn.addEventListener('click', () => {
-    closeErrorModal();
-  });
-  document.onkeydown = (evt) => {
-    if (isEscapeKey(evt) && !isTextFieldsActive()) {
-      evt.preventDefault();
-      uploadErrorModal.remove();
-    }
-  };
-  document.addEventListener('click', (evt) => {
-    if (!evt.target.closest('.error__inner')) {
-      closeErrorModal();
-    }
-  });
-};
+// const showErrorModal = () => {
+//   document.body.append(uploadErrorModal);
+//   uploadErrorModalBtn.addEventListener('click', () => {
+//     closeErrorModal();
+//   });
+//   document.onkeydown = (evt) => {
+//     if (isEscapeKey(evt) && !isTextFieldsActive()) {
+//       evt.preventDefault();
+//       uploadErrorModal.remove();
+//     }
+//   };
+//   document.addEventListener('click', (evt) => {
+//     if (!evt.target.closest('.error__inner')) {
+//       closeErrorModal();
+//     }
+//   });
+// };
 
 const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
+  document.removeEventListener('keydown', onDocumentKeydown);
   const isValid = validateForm();
   if (isValid) {
     tagsField.value.trim();
@@ -102,6 +101,8 @@ const activateUploadModal = () => imageUploadField.addEventListener('change', on
 
 export {
   activateUploadModal,
-  showSuccessModal,
-  showErrorModal
+  onDocumentKeydown,
+  closeUploadModal
+  // showSuccessModal,
+  // showErrorModal,
 };
