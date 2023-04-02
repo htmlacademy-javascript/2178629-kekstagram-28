@@ -3,8 +3,6 @@ import { postPublication } from './api.js';
 import {
   onDocumentKeydown,
   closeUploadModal
-  // showErrorModal,
-  // showSuccessModal,
 } from './upload-modal.js';
 
 const uploadSuccessModal = document.querySelector('#success').content.querySelector('.success');
@@ -37,15 +35,14 @@ const onDocumentKeydownLocalError = (evt) => {
   }
 };
 
-const toggleSubmitButtonDisabled = (isDisabled, buttonText) => {
+const toggleSubmitButtonDisabled = (isDisabled) => {
   submitButton.disabled = isDisabled;
-  submitButton.textContent = buttonText;
+  submitButton.textContent = isDisabled ? SubmitButtonText.SENDING : SubmitButtonText.IDLE;
 };
 
 
 function closeSuccessModal() {
   uploadSuccessModal.remove();
-  closeAllModals();
 }
 
 function closeErrorModal() {
@@ -77,13 +74,13 @@ const showErrorModal = () => {
 
 const uploadPublication = async (data) => {
   try {
-    toggleSubmitButtonDisabled(true, SubmitButtonText.SENDING);
+    toggleSubmitButtonDisabled(true);
     await postPublication(data);
     showSuccessModal();
   } catch(err) {
     showErrorModal();
   } finally {
-    toggleSubmitButtonDisabled(false, SubmitButtonText.IDLE);
+    toggleSubmitButtonDisabled(false);
   }
 };
 

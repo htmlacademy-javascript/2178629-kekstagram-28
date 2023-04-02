@@ -13,10 +13,6 @@ const uploadForm = document.querySelector('.img-upload__form');
 const canselUploadModalBtn = uploadModal.querySelector('.img-upload__cancel');
 const tagsField = uploadForm.querySelector('.text__hashtags');
 const descriptionField = uploadForm.querySelector('.text__description');
-// const uploadSuccessModal = document.querySelector('#success').content.querySelector('.success');
-// const uploadSuccessModalBtn = uploadSuccessModal.querySelector('.success__button');
-// const uploadErrorModal = document.querySelector('#error').content.querySelector('.error');
-// const uploadErrorModalBtn = uploadErrorModal.querySelector('.error__button');
 
 const isTextFieldsActive = () => (
   document.activeElement === tagsField ||
@@ -31,7 +27,6 @@ const onDocumentKeydown = (evt) => {
 };
 
 function closeUploadModal() {
-  // closeSuccessModal();
   uploadModal.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   document.body.classList.remove('modal-open');
@@ -48,41 +43,6 @@ const onImageUploadFieldChange = () => {
   canselUploadModalBtn.addEventListener('click', closeUploadModal);
   document.addEventListener('keydown', onDocumentKeydown);
 };
-
-// function closeSuccessModal() {
-//   uploadSuccessModal.remove();
-// }
-
-// function closeErrorModal() {
-//   uploadErrorModal.remove();
-//   document.onkeydown = onDocumentKeydown;
-// }
-
-// const showSuccessModal = () => {
-//   document.body.append(uploadSuccessModal);
-//   uploadSuccessModalBtn.addEventListener('click', () => {
-//     closeSuccessModal();
-//     closeUploadModal();
-//   });
-// };
-
-// const showErrorModal = () => {
-//   document.body.append(uploadErrorModal);
-//   uploadErrorModalBtn.addEventListener('click', () => {
-//     closeErrorModal();
-//   });
-//   document.onkeydown = (evt) => {
-//     if (isEscapeKey(evt) && !isTextFieldsActive()) {
-//       evt.preventDefault();
-//       uploadErrorModal.remove();
-//     }
-//   };
-//   document.addEventListener('click', (evt) => {
-//     if (!evt.target.closest('.error__inner')) {
-//       closeErrorModal();
-//     }
-//   });
-// };
 
 const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
@@ -103,6 +63,4 @@ export {
   activateUploadModal,
   onDocumentKeydown,
   closeUploadModal
-  // showSuccessModal,
-  // showErrorModal,
 };
