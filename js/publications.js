@@ -7,7 +7,7 @@ import {
 
 const renderPublications = async () => {
   try {
-    const publications = await getPublications ();
+    const publications = await getPublications();
     renderCards(publications);
     activateBigPicture(publications);
   } catch(err) {

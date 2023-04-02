@@ -7,7 +7,8 @@ import {
   resetPristine,
   validateForm
 } from './validation.js';
-import { uploadPublication } from './api.js';
+// import { uploadPublication } from './api.js';
+import { uploadPublication } from './upload-publicaton.js';
 
 const imageUploadField = document.querySelector('.img-upload__input');
 const uploadModal = document.querySelector('.img-upload__overlay');
@@ -20,10 +21,7 @@ const uploadSuccessModal = document.querySelector('#success').content.querySelec
 const uploadSuccessModalBtn = uploadSuccessModal.querySelector('.success__button');
 const uploadErrorModal = document.querySelector('#error').content.querySelector('.error');
 const uploadErrorModalBtn = uploadErrorModal.querySelector('.error__button');
-const SubmitButtonText = {
-  IDLE : 'Опубликовать',
-  SENDING : 'Отправляется'
-};
+
 const isTextFieldsActive = () => (
   document.activeElement === tagsField ||
   document.activeElement === descriptionField
@@ -101,8 +99,7 @@ const onUploadFormSubmit = (evt) => {
   if (isValid) {
     tagsField.value.trim();
     const formData = new FormData(uploadForm);
-    toggleSubmitButtonDisabled(true, SubmitButtonText.SENDING);
-    uploadPublication(formData, showSuccessModal, showErrorModal, toggleSubmitButtonDisabled(false, SubmitButtonText.IDLE));
+    uploadPublication(formData);
   }
 };
 
@@ -110,4 +107,9 @@ uploadForm.addEventListener('submit', onUploadFormSubmit);
 
 const activateUploadModal = () => imageUploadField.addEventListener('change', onImageUploadFieldChange);
 
-export { activateUploadModal };
+export {
+  activateUploadModal,
+  toggleSubmitButtonDisabled,
+  showSuccessModal,
+  showErrorModal
+};
