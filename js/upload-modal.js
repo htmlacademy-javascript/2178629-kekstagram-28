@@ -7,14 +7,12 @@ import {
   resetPristine,
   validateForm
 } from './validation.js';
-// import { uploadPublication } from './api.js';
 import { uploadPublication } from './upload-publicaton.js';
 
 const imageUploadField = document.querySelector('.img-upload__input');
 const uploadModal = document.querySelector('.img-upload__overlay');
 const uploadForm = document.querySelector('.img-upload__form');
 const canselUploadModalBtn = uploadModal.querySelector('.img-upload__cancel');
-const submitButton = uploadModal.querySelector('.img-upload__submit');
 const tagsField = uploadForm.querySelector('.text__hashtags');
 const descriptionField = uploadForm.querySelector('.text__description');
 const uploadSuccessModal = document.querySelector('#success').content.querySelector('.success');
@@ -88,11 +86,6 @@ const showErrorModal = () => {
   });
 };
 
-const toggleSubmitButtonDisabled = (isDisabled, buttonText) => {
-  submitButton.disabled = isDisabled;
-  submitButton.textContent = buttonText;
-};
-
 const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
   const isValid = validateForm();
@@ -109,7 +102,6 @@ const activateUploadModal = () => imageUploadField.addEventListener('change', on
 
 export {
   activateUploadModal,
-  toggleSubmitButtonDisabled,
   showSuccessModal,
   showErrorModal
 };

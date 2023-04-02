@@ -1,14 +1,18 @@
 import { postPublication } from './api.js';
 import {
-  toggleSubmitButtonDisabled,
   showErrorModal,
   showSuccessModal
 } from './upload-modal.js';
 
-
+const submitButton = document.querySelector('.img-upload__submit');
 const SubmitButtonText = {
   IDLE : 'Опубликовать',
   SENDING : 'Отправляется'
+};
+
+const toggleSubmitButtonDisabled = (isDisabled, buttonText) => {
+  submitButton.disabled = isDisabled;
+  submitButton.textContent = buttonText;
 };
 
 const uploadPublication = async (data) => {
