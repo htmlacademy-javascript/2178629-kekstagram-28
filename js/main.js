@@ -1,9 +1,5 @@
-import { publications } from './mock-publications.js';
-import { renderCards } from './cards.js';
-import { activateBigPicture } from './card-modal.js';
 import { activateUploadModal } from './upload-modal.js';
-import './upload-effects.js';
+import { renderPublications } from './publications.js';
 
-renderCards(publications);
-activateBigPicture();
+renderPublications();
 activateUploadModal();

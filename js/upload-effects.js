@@ -1,10 +1,10 @@
 const EffectsSettings = {
-  none : {
+  NONE : {
     filter : 'none',
     units : '',
     options : {
       connect : 'lower',
-      start : 100,
+      start : 0,
       step : 1,
       range : {
         min : 0,
@@ -12,7 +12,7 @@ const EffectsSettings = {
       }
     }
   },
-  chrome : {
+  CHROME : {
     filter : 'grayscale',
     units : '',
     options : {
@@ -25,7 +25,7 @@ const EffectsSettings = {
       }
     }
   },
-  sepia : {
+  SEPIA : {
     filter : 'sepia',
     units : '',
     options : {
@@ -38,7 +38,7 @@ const EffectsSettings = {
       }
     }
   },
-  marvin : {
+  MARVIN : {
     filter : 'invert',
     units : '%',
     options : {
@@ -51,7 +51,7 @@ const EffectsSettings = {
       },
     }
   },
-  phobos : {
+  PHOBOS : {
     filter : 'blur',
     units : 'px',
     options : {
@@ -64,7 +64,7 @@ const EffectsSettings = {
       },
     }
   },
-  heat : {
+  HEAT : {
     filter : 'brightness',
     units : '',
     options : {
@@ -84,7 +84,7 @@ const imagePreview = document.querySelector('.img-upload__preview img');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 const slider = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
-const DEFAULT_EFFECT = 'none';
+const DEFAULT_EFFECT = 'NONE';
 
 let currentEffect = DEFAULT_EFFECT;
 
@@ -115,7 +115,7 @@ const updateSlider = (effect) => {
 
 const onEffectsChange = (evt) => {
   if (evt.target.matches('.effects__radio')) {
-    currentEffect = evt.target.value;
+    currentEffect = evt.target.value.toUpperCase();
   }
   updateSlider(currentEffect);
 };
