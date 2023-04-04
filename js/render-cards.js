@@ -13,9 +13,17 @@ const createCard = ({id, url, comments, likes}) => {
   return card;
 };
 
+const clearCardsList = (cardsListParent, cardsAtrr) => {
+  const elementsToRemove = cardsListParent.querySelectorAll(cardsAtrr);
+  elementsToRemove.forEach((item) => item.remove());
+};
+
 const renderCards = (publicationsArr) => {
+
   const cardsFragment = document.createDocumentFragment();
   const cardsContainer = document.querySelector('.pictures');
+
+  clearCardsList(cardsContainer, '.picture');
 
   publicationsArr.forEach((publication) => {
     const card = createCard(publication);
