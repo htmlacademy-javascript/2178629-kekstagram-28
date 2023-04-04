@@ -35,6 +35,8 @@ body {
   text-transform: uppercase;
 
   background-color: #232321;
+  width:100vw;
+  overflow-x:hidden;
 }
 
 main {

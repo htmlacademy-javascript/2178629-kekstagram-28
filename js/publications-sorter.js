@@ -1,40 +1,49 @@
 import { renderCards } from './render-cards.js';
 import {
   getRandomUnicValue,
-  // getRandomInRange
 } from './utils.js';
+
+const DISPLAY_RANDOM_PUBLICATIONS = 10;
 
 const publicationsSorter = document.querySelector('.img-filters');
 const sorterButtons = publicationsSorter.querySelectorAll('.img-filters__button');
-// const sorterDefault = publicationsSorter.querySelector('#filter-default');
-// const sorterRandom = publicationsSorter.querySelector('#filter-random');
-// const sorterDiscussed = publicationsSorter.querySelector('#filter-discussed');
 
-let selectedSorter;
+let currentSorter = '';
+let currentPublications = [];
 
-const generateRandomPublications = (sourcePublicationsArray, maxAmount) => {
-  const getRandomPublication = getRandomUnicValue(sourcePublicationsArray);
+const getDiscussedPublications = (sourcePublications) => {
+  const disscussedPublications = sourcePublications.sort((a, b) => b.comments.length - a.comments.length);
+  return disscussedPublications;
+};
+
+const generateRandomPublications = (sourcePublications, maxAmount) => {
+  const getRandomPublication = getRandomUnicValue(sourcePublications);
   return Array.from({length : maxAmount}, getRandomPublication);
+};
+
+const sortAndRenderCards = (sourcePublications) => {
+  if (currentSorter === 'filter-discussed') {
+    currentPublications = getDiscussedPublications(sourcePublications);
+  }
+  if (currentSorter === 'filter-random') {
+    currentPublications = generateRandomPublications(sourcePublications, DISPLAY_RANDOM_PUBLICATIONS);
+  }
+  renderCards(currentPublications);
 };
 
 const startPublicationsSorter = (publications) => {
 
-  setTimeout(() => publicationsSorter.classList.remove('img-filters--inactive'), 750);
+  setTimeout(() => publicationsSorter.classList.remove('img-filters--inactive'), 500);
 
   publicationsSorter.addEventListener('click', (evt) => {
-    let currentPublications = publications.slice();
-    selectedSorter = (evt.target.getAttribute('id'));
-    sorterButtons.forEach((item) => item.getAttribute('id') === selectedSorter ?
+
+    currentPublications = publications.slice();
+
+    currentSorter = (evt.target.getAttribute('id'));
+    sorterButtons.forEach((item) => item.getAttribute('id') === currentSorter ?
       item.classList.add('img-filters__button--active') :
       item.classList.remove('img-filters__button--active'));
-
-    if (selectedSorter === 'filter-discussed') {
-      currentPublications = currentPublications.slice(5, 13);
-    }
-    if (selectedSorter === 'filter-random') {
-      currentPublications = generateRandomPublications(currentPublications, 12);
-    }
-    renderCards(currentPublications);
+    sortAndRenderCards(currentPublications);
   });
 };
 
