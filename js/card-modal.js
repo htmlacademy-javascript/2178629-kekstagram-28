@@ -58,6 +58,6 @@ function onCommentsLoaderButtonClick (evt) {
   }
 }
 
-const activateBigPicture = (publicationsArray) => cards.addEventListener('click', onCardsClick(publicationsArray));
+const initBigPicture = (publicationsArray) => cards.addEventListener('click', onCardsClick(publicationsArray));
 
-export { activateBigPicture };
+export { initBigPicture };
