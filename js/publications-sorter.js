@@ -5,47 +5,86 @@ import {
 } from './utils.js';
 
 const publicationsSorter = document.querySelector('.img-filters');
+const publicationsSorterButtons = document.querySelector('.img-filters__form');
 const sorterButtons = publicationsSorter.querySelectorAll('.img-filters__button');
 
+// const DEFAULT_SORTER = 'filter-default';
 const RERENDER_DELAY = 500;
 const DISPLAY_RANDOM_PUBLICATIONS = 10;
-let currentSorter = '';
+let sourcePublications;
 let currentPublications;
+let currentSorter = '';
 
-const getDiscussedPublications = (sourcePublications) => {
-  const disscussedPublications = sourcePublications.slice();
-  return disscussedPublications.sort((a, b) => b.comments.length - a.comments.length);
+const sorters = {
+  'filter-default' :
+    {
+      considerSecondClick : false,
+      handler() {
+        getDefaultPublications();
+      },
+    },
+  'filter-random' :
+    {
+      considerSecondClick : true,
+      handler() {
+        generateRandomPublications();
+      }
+    },
+  'filter-discussed' :
+    {
+      considerSecondClick : false,
+      handler() {
+        getDiscussedPublications();
+      },
+    },
 };
 
-const generateRandomPublications = (sourcePublications, maxAmount) => {
-  const getRandomPublication = getRandomUnicValue(sourcePublications);
-  return Array.from({length : maxAmount}, getRandomPublication);
-};
-
-const sortAndRenderCards = (sourcePublications) => {
-  currentPublications = sourcePublications.slice();
-  if (currentSorter === 'filter-random') {
-    currentPublications = generateRandomPublications(sourcePublications, DISPLAY_RANDOM_PUBLICATIONS);
-  }
-  if (currentSorter === 'filter-discussed') {
-    currentPublications = getDiscussedPublications(sourcePublications);
-  }
+const sortAndRenderCards = () => {
+  sorters[currentSorter].handler();
   renderCards(currentPublications);
 };
 
-const setSorter = (cb) => {
-  publicationsSorter.addEventListener('click', (evt) => {
-    currentSorter = (evt.target.getAttribute('id'));
-    sorterButtons.forEach((item) => item.getAttribute('id') === currentSorter ?
-      item.classList.add('img-filters__button--active') :
-      item.classList.remove('img-filters__button--active'));
-    cb();
-  });
+const setSorterButton = () => {
+  sorterButtons.forEach((item) => item.getAttribute('id') === currentSorter ?
+    item.classList.add('img-filters__button--active') :
+    item.classList.remove('img-filters__button--active'));
 };
 
-const initPublicationsSorter = (publications) => {
-  setTimeout(() => publicationsSorter.classList.remove('img-filters--inactive'), RERENDER_DELAY);
-  setSorter(debounce(() => sortAndRenderCards(publications), RERENDER_DELAY));
+const onPublicationsSorterButtonsMousedown = (cb) => (evt) => {
+  currentSorter = (evt.target.getAttribute('id'));
+  if (!evt.target.classList.contains('img-filters__button--active')) {
+    setSorterButton();
+    cb();
+  } else if (sorters[currentSorter].considerSecondClick) {
+    cb();
+  }
 };
+
+const setSorter = (cb) => {
+  publicationsSorterButtons.addEventListener('mousedown', onPublicationsSorterButtonsMousedown(cb));
+};
+
+const initPublicationsSorter = (enteredArray) => {
+  sourcePublications = enteredArray;
+  publicationsSorter.classList.remove('img-filters--inactive');
+  setSorter(debounce(sortAndRenderCards, RERENDER_DELAY));
+};
+
+
+function getDefaultPublications() {
+  currentPublications = sourcePublications.slice();
+  return currentPublications;
+}
+
+function generateRandomPublications() {
+  const getRandomPublication = getRandomUnicValue(sourcePublications);
+  currentPublications = Array.from({length : DISPLAY_RANDOM_PUBLICATIONS}, getRandomPublication);
+  return currentPublications;
+}
+
+function getDiscussedPublications() {
+  currentPublications = sourcePublications.slice();
+  return currentPublications.sort((a, b) => b.comments.length - a.comments.length);
+}
 
 export { initPublicationsSorter };
