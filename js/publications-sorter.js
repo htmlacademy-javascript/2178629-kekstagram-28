@@ -8,29 +8,28 @@ const publicationsSorter = document.querySelector('.img-filters');
 const publicationsSorterButtons = document.querySelector('.img-filters__form');
 const sorterButtons = publicationsSorter.querySelectorAll('.img-filters__button');
 
-// const DEFAULT_SORTER = 'filter-default';
 const RERENDER_DELAY = 500;
 const DISPLAY_RANDOM_PUBLICATIONS = 10;
 let sourcePublications;
 let currentPublications;
 let currentSorter = '';
 
-const sorters = {
-  'filter-default' :
+const Sorters = {
+  FILTER_DEFAULT :
     {
       considerSecondClick : false,
       handler() {
         getDefaultPublications();
       },
     },
-  'filter-random' :
+  FILTER_RANDOM :
     {
       considerSecondClick : true,
       handler() {
         generateRandomPublications();
       }
     },
-  'filter-discussed' :
+  FILTER_DISCUSSED :
     {
       considerSecondClick : false,
       handler() {
@@ -40,7 +39,7 @@ const sorters = {
 };
 
 const sortAndRenderCards = () => {
-  sorters[currentSorter].handler();
+  Sorters[currentSorter].handler();
   renderCards(currentPublications);
 };
 
@@ -51,11 +50,11 @@ const setSorterButton = () => {
 };
 
 const onPublicationsSorterButtonsMousedown = (cb) => (evt) => {
-  currentSorter = (evt.target.getAttribute('id'));
+  currentSorter = (evt.target.getAttribute('id')).toUpperCase().replace('-', '_');
   if (!evt.target.classList.contains('img-filters__button--active')) {
     setSorterButton();
     cb();
-  } else if (sorters[currentSorter].considerSecondClick) {
+  } else if (Sorters[currentSorter].considerSecondClick) {
     cb();
   }
 };
