@@ -12,7 +12,6 @@ const DISPLAY_RANDOM_PUBLICATIONS = 10;
 let sourcePublications;
 let currentPublications;
 let currentSorter = '';
-let lastSorterUsed = 'DEFAULT';
 
 const Sorters = {
   DEFAULT :
@@ -48,19 +47,17 @@ const sortAndRenderCards = () => {
   renderCards(currentPublications);
 };
 
-const setSorterButton = () => {
-  const currentSorterButton = document.getElementById(Sorters[currentSorter].idName);
-  const lastUsedSorterButton = document.getElementById(Sorters[lastSorterUsed].idName);
-  currentSorterButton.classList.add('img-filters__button--active');
-  lastUsedSorterButton.classList.remove('img-filters__button--active');
-  lastSorterUsed = currentSorter;
+const setSorterButton = (elementToSetActive) => {
+  const currentActiveElevent = publicationsSorterButtons.querySelector('.img-filters__button--active');
+  currentActiveElevent.classList.remove('img-filters__button--active');
+  elementToSetActive.classList.add('img-filters__button--active');
 };
 
 const onPublicationsSorterButtonsClick = (cb) => (evt) => {
   const clickedElement = evt.target;
-  currentSorter = getSorterKey(clickedElement.id);
   if (!clickedElement.classList.contains('img-filters__button--active')) {
-    setSorterButton();
+    setSorterButton(clickedElement);
+    currentSorter = getSorterKey(clickedElement.id);
     cb();
   } else if (Sorters[currentSorter].considerSecondClick) {
     cb();
