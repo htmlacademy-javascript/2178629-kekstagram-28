@@ -12,6 +12,7 @@ const RERENDER_DELAY = 500;
 const DISPLAY_RANDOM_PUBLICATIONS = 10;
 let sourcePublications;
 let currentPublications;
+let currentSorterLowCase = '';
 let currentSorter = '';
 
 const Sorters = {
@@ -44,13 +45,14 @@ const sortAndRenderCards = () => {
 };
 
 const setSorterButton = () => {
-  sorterButtons.forEach((item) => item.getAttribute('id') === currentSorter ?
+  sorterButtons.forEach((item) => item.getAttribute('id') === currentSorterLowCase ?
     item.classList.add('img-filters__button--active') :
     item.classList.remove('img-filters__button--active'));
 };
 
-const onPublicationsSorterButtonsMousedown = (cb) => (evt) => {
-  currentSorter = (evt.target.getAttribute('id')).toUpperCase().replace('-', '_');
+const onPublicationsSorterButtonsСlick = (cb) => (evt) => {
+  currentSorterLowCase = (evt.target.getAttribute('id'));
+  currentSorter = currentSorterLowCase.toUpperCase().replace('-', '_');
   if (!evt.target.classList.contains('img-filters__button--active')) {
     setSorterButton();
     cb();
@@ -60,7 +62,7 @@ const onPublicationsSorterButtonsMousedown = (cb) => (evt) => {
 };
 
 const setSorter = (cb) => {
-  publicationsSorterButtons.addEventListener('mousedown', onPublicationsSorterButtonsMousedown(cb));
+  publicationsSorterButtons.addEventListener('click', onPublicationsSorterButtonsСlick(cb));
 };
 
 const initPublicationsSorter = (enteredArray) => {
