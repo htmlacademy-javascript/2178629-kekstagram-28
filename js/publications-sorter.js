@@ -11,36 +11,31 @@ const RERENDER_DELAY = 500;
 const DISPLAY_RANDOM_PUBLICATIONS = 10;
 let sourcePublications;
 let currentPublications;
-let currentSorter = '';
+let currentSorter = 'FILTER_DEFAULT';
 
 const Sorters = {
-  DEFAULT :
+  FILTER_DEFAULT :
     {
-      idName : 'filter-default',
       considerSecondClick : false,
       handler() {
         getDefaultPublications();
       },
     },
-  RANDOM :
+  FILTER_RANDOM :
     {
-      idName : 'filter-random',
       considerSecondClick : true,
       handler() {
         generateRandomPublications();
       }
     },
-  DISCUSSED :
+  FILTER_DISCUSSED :
     {
-      idName : 'filter-discussed',
       considerSecondClick : false,
       handler() {
         getDiscussedPublications();
       },
     },
 };
-
-const getSorterKey = (value) => Object.keys(Sorters).find((key) => Sorters[key].idName === value);
 
 const sortAndRenderCards = () => {
   Sorters[currentSorter].handler();
@@ -57,7 +52,7 @@ const onPublicationsSorterButtonsClick = (cb) => (evt) => {
   const clickedElement = evt.target;
   if (!clickedElement.classList.contains('img-filters__button--active')) {
     setSorterButton(clickedElement);
-    currentSorter = getSorterKey(clickedElement.id);
+    currentSorter = (clickedElement.id).toUpperCase().replace('-', '_');
     cb();
   } else if (Sorters[currentSorter].considerSecondClick) {
     cb();
