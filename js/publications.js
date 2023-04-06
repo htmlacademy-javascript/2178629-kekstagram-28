@@ -1,5 +1,6 @@
 import { renderCards } from './render-cards.js';
-import { activateBigPicture } from './card-modal.js';
+import { initPublicationsSorter } from './publications-sorter.js';
+import { initBigPicture } from './card-modal.js';
 import {
   getPublications,
   onGetDataError
@@ -9,7 +10,8 @@ const renderPublications = async () => {
   try {
     const publications = await getPublications();
     renderCards(publications);
-    activateBigPicture(publications);
+    initPublicationsSorter(publications);
+    initBigPicture(publications);
   } catch(err) {
     onGetDataError();
   }

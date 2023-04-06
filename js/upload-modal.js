@@ -57,10 +57,10 @@ const onUploadFormSubmit = (evt) => {
 
 uploadForm.addEventListener('submit', onUploadFormSubmit);
 
-const activateUploadModal = () => imageUploadField.addEventListener('change', onImageUploadFieldChange);
+const initUploadModal = () => imageUploadField.addEventListener('change', onImageUploadFieldChange);
 
 export {
-  activateUploadModal,
+  initUploadModal,
   onDocumentKeydown,
   closeUploadModal
 };
