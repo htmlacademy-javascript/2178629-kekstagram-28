@@ -1,5 +1,3 @@
-const createSequenceArray = (length) => Array.from({length: length}, (value, index) => ++index);
-
 const getRandomInRange = (lim1, lim2 = 1) => {
   const min = Math.ceil(Math.min(lim1, lim2));
   const max = Math.floor(Math.max(lim1, lim2));
@@ -15,11 +13,6 @@ const getRandomUnicValue = (array) => {
     tempArray.splice(randomIndex, 1);
     return value;
   };
-};
-
-const createIdGenerator = (startPosition = 1) => {
-  let lastItem = startPosition;
-  return () => lastItem++;
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
@@ -63,10 +56,7 @@ const debounce = (callback, timeoutDelay = 500) => {
 };
 
 export {
-  createSequenceArray,
-  getRandomInRange,
   getRandomUnicValue,
-  createIdGenerator,
   isEscapeKey,
   isUnicItems,
   showAlert,
