@@ -6,32 +6,34 @@ import {
 
 const publicationsSorter = document.querySelector('.img-filters');
 const publicationsSorterButtons = document.querySelector('.img-filters__form');
-const sorterButtons = publicationsSorter.querySelectorAll('.img-filters__button');
 
 const RERENDER_DELAY = 500;
 const DISPLAY_RANDOM_PUBLICATIONS = 10;
 let sourcePublications;
 let currentPublications;
-let currentSorterLowCase = '';
 let currentSorter = '';
+let lastSorterUsed = 'DEFAULT';
 
 const Sorters = {
-  FILTER_DEFAULT :
+  DEFAULT :
     {
+      idName : 'filter-default',
       considerSecondClick : false,
       handler() {
         getDefaultPublications();
       },
     },
-  FILTER_RANDOM :
+  RANDOM :
     {
+      idName : 'filter-random',
       considerSecondClick : true,
       handler() {
         generateRandomPublications();
       }
     },
-  FILTER_DISCUSSED :
+  DISCUSSED :
     {
+      idName : 'filter-discussed',
       considerSecondClick : false,
       handler() {
         getDiscussedPublications();
@@ -39,21 +41,25 @@ const Sorters = {
     },
 };
 
+const getSorterKey = (value) => Object.keys(Sorters).find((key) => Sorters[key].idName === value);
+
 const sortAndRenderCards = () => {
   Sorters[currentSorter].handler();
   renderCards(currentPublications);
 };
 
 const setSorterButton = () => {
-  sorterButtons.forEach((item) => item.getAttribute('id') === currentSorterLowCase ?
-    item.classList.add('img-filters__button--active') :
-    item.classList.remove('img-filters__button--active'));
+  const currentSorterButton = document.getElementById(Sorters[currentSorter].idName);
+  const lastUsedSorterButton = document.getElementById(Sorters[lastSorterUsed].idName);
+  currentSorterButton.classList.add('img-filters__button--active');
+  lastUsedSorterButton.classList.remove('img-filters__button--active');
+  lastSorterUsed = currentSorter;
 };
 
-const onPublicationsSorterButtonsСlick = (cb) => (evt) => {
-  currentSorterLowCase = (evt.target.getAttribute('id'));
-  currentSorter = currentSorterLowCase.toUpperCase().replace('-', '_');
-  if (!evt.target.classList.contains('img-filters__button--active')) {
+const onPublicationsSorterButtonsClick = (cb) => (evt) => {
+  const clickedElement = evt.target;
+  currentSorter = getSorterKey(clickedElement.id);
+  if (!clickedElement.classList.contains('img-filters__button--active')) {
     setSorterButton();
     cb();
   } else if (Sorters[currentSorter].considerSecondClick) {
@@ -62,7 +68,7 @@ const onPublicationsSorterButtonsСlick = (cb) => (evt) => {
 };
 
 const setSorter = (cb) => {
-  publicationsSorterButtons.addEventListener('click', onPublicationsSorterButtonsСlick(cb));
+  publicationsSorterButtons.addEventListener('click', onPublicationsSorterButtonsClick(cb));
 };
 
 const initPublicationsSorter = (enteredArray) => {
