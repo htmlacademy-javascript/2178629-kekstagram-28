@@ -6,6 +6,7 @@ import {
   validateForm
 } from './validation.js';
 import { uploadPublication } from './upload-publicaton.js';
+import { showUserImage } from './upload-image.js';
 
 const imageUploadField = document.querySelector('.img-upload__input');
 const uploadModal = document.querySelector('.img-upload__overlay');
@@ -42,6 +43,7 @@ const onImageUploadFieldChange = () => {
   document.body.classList.add('modal-open');
   canselUploadModalBtn.addEventListener('click', closeUploadModal);
   document.addEventListener('keydown', onDocumentKeydown);
+  showUserImage();
 };
 
 const onUploadFormSubmit = (evt) => {
