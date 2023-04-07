@@ -11,24 +11,24 @@ const RERENDER_DELAY = 500;
 const DISPLAY_RANDOM_PUBLICATIONS = 10;
 let sourcePublications;
 let currentPublications;
-let currentSorter = 'FILTER_DEFAULT';
+let currentSorter = 'DEFAULT';
 
 const Sorters = {
-  FILTER_DEFAULT :
+  DEFAULT :
     {
       considerSecondClick : false,
       handler() {
         getDefaultPublications();
       },
     },
-  FILTER_RANDOM :
+  RANDOM :
     {
       considerSecondClick : true,
       handler() {
         generateRandomPublications();
       }
     },
-  FILTER_DISCUSSED :
+  DISCUSSED :
     {
       considerSecondClick : false,
       handler() {
@@ -52,7 +52,7 @@ const onPublicationsSorterButtonsClick = (cb) => (evt) => {
   const clickedElement = evt.target;
   if (!clickedElement.classList.contains('img-filters__button--active')) {
     setSorterButton(clickedElement);
-    currentSorter = (clickedElement.id).toUpperCase().replace('-', '_');
+    currentSorter = (clickedElement.id).toUpperCase().replace('FILTER-', '');
     cb();
   } else if (Sorters[currentSorter].considerSecondClick) {
     cb();
