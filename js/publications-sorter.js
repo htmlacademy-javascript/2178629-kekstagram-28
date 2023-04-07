@@ -48,7 +48,7 @@ const setSorterButton = (elementToSetActive) => {
   elementToSetActive.classList.add('img-filters__button--active');
 };
 
-const onPublicationsSorterButtonsClick = (cb) => (evt) => {
+const onPublicationsSorterButtonsMousedown = (cb) => (evt) => {
   const clickedElement = evt.target;
   if (!clickedElement.classList.contains('img-filters__button--active')) {
     setSorterButton(clickedElement);
@@ -60,7 +60,7 @@ const onPublicationsSorterButtonsClick = (cb) => (evt) => {
 };
 
 const setSorter = (cb) => {
-  publicationsSorterButtons.addEventListener('click', onPublicationsSorterButtonsClick(cb));
+  publicationsSorterButtons.addEventListener('mousedown', onPublicationsSorterButtonsMousedown(cb));
 };
 
 const initPublicationsSorter = (enteredArray) => {
