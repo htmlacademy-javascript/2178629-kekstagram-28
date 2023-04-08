@@ -60,7 +60,7 @@ const onPublicationsSorterButtonsClick = (cb) => (evt) => {
 };
 
 const setSorter = (cb) => {
-  const buttons = document.querySelectorAll('.img-filters__button');
+  const buttons = publicationsSorterButtons.querySelectorAll('.img-filters__button');
   buttons.forEach((elem) => {
     elem.addEventListener('click', onPublicationsSorterButtonsClick(cb));
   });
