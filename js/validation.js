@@ -8,7 +8,7 @@ const tagsField = uploadForm.querySelector('.text__hashtags');
 const VALID_TAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_TAGS_PER_PUBLICATIONS = 5;
 const ErrorMessages = {
-  VALIDATE_TAG : 'Хэштег должен начинаться с \'#\', \nне может состоять только из \'#\'',
+  VALIDATE_TAG : 'Хэштег должен начинаться с \'#\', \nне может состоять только из \'#\', не должен быть длиннее 20 символов',
   UNIC_TAG : 'Каждый хэштег должен быть уникальным',
   TAG_COUNT : 'Допустимо не более пяти уникальных хэштегов'
 };
