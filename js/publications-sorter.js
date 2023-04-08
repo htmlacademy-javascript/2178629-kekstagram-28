@@ -11,24 +11,24 @@ const RERENDER_DELAY = 500;
 const DISPLAY_RANDOM_PUBLICATIONS = 10;
 let sourcePublications;
 let currentPublications;
-let currentSorter = 'DEFAULT';
+let currentSorter = 'FILTER_DEFAULT';
 
 const Sorters = {
-  DEFAULT :
+  FILTER_DEFAULT :
     {
       considerSecondClick : false,
       handler() {
         getDefaultPublications();
       },
     },
-  RANDOM :
+  FILTER_RANDOM :
     {
       considerSecondClick : true,
       handler() {
         generateRandomPublications();
       }
     },
-  DISCUSSED :
+  FILTER_DISCUSSED :
     {
       considerSecondClick : false,
       handler() {
@@ -48,11 +48,11 @@ const setSorterButton = (elementToSetActive) => {
   elementToSetActive.classList.add('img-filters__button--active');
 };
 
-const onPublicationsSorterButtonsMousedown = (cb) => (evt) => {
+const onPublicationsSorterButtonsClick = (cb) => (evt) => {
   const clickedElement = evt.target;
   if (!clickedElement.classList.contains('img-filters__button--active')) {
     setSorterButton(clickedElement);
-    currentSorter = (clickedElement.id).toUpperCase().replace('FILTER-', '');
+    currentSorter = (clickedElement.id).toUpperCase().replace('-', '_');
     cb();
   } else if (Sorters[currentSorter].considerSecondClick) {
     cb();
@@ -60,7 +60,10 @@ const onPublicationsSorterButtonsMousedown = (cb) => (evt) => {
 };
 
 const setSorter = (cb) => {
-  publicationsSorterButtons.addEventListener('mousedown', onPublicationsSorterButtonsMousedown(cb));
+  const buttons = publicationsSorterButtons.querySelectorAll('.img-filters__button');
+  buttons.forEach((elem) => {
+    elem.addEventListener('click', onPublicationsSorterButtonsClick(cb));
+  });
 };
 
 const initPublicationsSorter = (enteredArray) => {

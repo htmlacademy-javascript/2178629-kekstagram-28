@@ -15,16 +15,10 @@ const SubmitButtonText = {
   SENDING : 'Отправляется'
 };
 
-function closeAllModals() {
-  document.removeEventListener('keydown', onDocumentKeydownLocalSuccess);
-  closeUploadModal();
-  closeSuccessModal();
-}
-
 function onDocumentKeydownLocalSuccess(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeAllModals();
+    closeSuccessModal();
   }
 }
 
@@ -53,8 +47,9 @@ function closeErrorModal() {
 
 const showSuccessModal = () => {
   document.body.append(uploadSuccessModal);
+  closeUploadModal();
   uploadSuccessModalBtn.addEventListener('click', () => {
-    closeAllModals();
+    closeSuccessModal();
   });
   document.addEventListener('keydown', onDocumentKeydownLocalSuccess);
 };
